@@ -40,20 +40,25 @@
     },
     "task": [
         {
-            "name": "打开浏览器",
-            "entry": "OpenBrowser"
+            "name": "选择数据",
+            "entry": "SelectDatasetRow",
+            "description": "选择数据行。<span style=\"color:tomato\">必选！</span>",
+            "default_check": true
         },
         {
             "name": "首次宗地调查",
-            "entry": "FirstTimeEstateSurvey"
+            "entry": "FirstTimeEstateSurvey",
+            "default_check": true
         },
         {
             "name": "首次实测幢调查",
-            "entry": "FirstTimeSCZSurvey"
+            "entry": "FirstTimeSCZSurvey",
+            "default_check": true
         },
         {
             "name": "登簿",
-            "entry": "Register"
+            "entry": "Register",
+            "default_check": true
         }
     ]
 }

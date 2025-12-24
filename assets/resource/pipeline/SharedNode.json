@@ -1,0 +1,8 @@
+{
+    "受理": {
+        "recognition": "OCR",
+        "expected": "受理",
+        "action": "Click",
+        "max_hit": 1
+    }
+}
