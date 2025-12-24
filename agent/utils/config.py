@@ -35,7 +35,8 @@ class Config:
         return self.detail.get(key, default)
 
     def set_value(self, key: str, value):
-        setattr(self, key, self.detail[key])
+        self.detail[key] = value
+        setattr(self, key, value)
         Path(self.config_file).parent.mkdir(parents=True, exist_ok=True)
         with open(self.config_file, "w", encoding="utf-8") as f:
             json.dump(self.detail, f, ensure_ascii=False, indent=4)
