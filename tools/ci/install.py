@@ -68,9 +68,9 @@ def install_resource(version):
     configure_ocr_model()
 
     def merge_pipeline_files():
-        pipeline_files = Path(
-            working_dir / "assets" / "resource" / "base" / "pipeline"
-        ).glob("*.json")
+        pipeline_files = Path(working_dir / "assets" / "resource" / "pipeline").glob(
+            "*.json"
+        )
         pipeline_merged = {}
         for pipeline_file in pipeline_files:
             with open(pipeline_file, "r", encoding="utf-8") as f:
@@ -79,7 +79,7 @@ def install_resource(version):
             os.remove(pipeline_file)
 
         with open(
-            working_dir / "assets" / "resource" / "base" / "pipeline" / "merged.json",
+            working_dir / "assets" / "resource" / "pipeline" / "merged.json",
             "w",
             encoding="utf-8",
         ) as f:
