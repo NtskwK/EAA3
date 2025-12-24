@@ -1,15 +1,17 @@
 import os
 import json
 import random
-from typing import Optional, Tuple
+from typing import List, Literal, Optional, Tuple
 
 from PIL import Image
 
 from maa.agent.agent_server import AgentServer, TaskDetail
 from maa.custom_action import CustomAction
 from maa.context import Context
-from maa.define import RectType
+from maa.define import RectType, Rect
+from maa.pipeline import JActionType, JInputText
 
+from utils.config import get_config
 from utils.logger import logger, log_dir
 from utils import get_format_timestamp
 
@@ -190,3 +192,53 @@ class GoIntoEntry(CustomAction):
             return False, None
 
         return True, reco_detail.best_result.box
+
+
+@AgentServer.custom_action("select_dataset_row")
+class SelectDatasetRow(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        return CustomAction.RunResult(success=True)
+
+
+def calc_inputbox(box: Rect, position: Literal["right", "bottom"]) -> Rect:
+    if position == "right":
+        box.x = box.x + int(1.5 * box.w)
+    elif position == "bottom":
+        box.y = box.y + int(1.5 * box.h)
+    else:
+        raise ValueError(f"Unknown position: {position}")
+    return box
+
+
+@AgentServer.custom_action("fill_estate_survey_project_name")
+class FillEstateSurveyProjectName(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        config = get_config()
+        project_name = config.get_value("estate_survey_project_name", None)
+        if project_name is None:
+            logger.error("未配置项目名称")
+            return CustomAction.RunResult(success=False)
+
+        if not argv.reco_detail or not argv.reco_detail.best_result:
+            logger.error("未提供识别结果，无法定位输入框")
+            return CustomAction.RunResult(success=False)
+
+        is_success = (
+            context.tasker.post_action(
+                action_type=JActionType.InputText,
+                action_param=JInputText(input_text=project_name),
+                box=calc_inputbox(argv.reco_detail.best_result.box, position="right"),
+            )
+            .wait()
+            .succeeded
+        )
+
+        return CustomAction.RunResult(success=is_success)
