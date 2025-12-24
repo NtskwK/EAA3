@@ -1,6 +1,6 @@
 [remote.github]
-owner = "MaaXYZ"
-repo = "MaaPracticeBoilerplate"
+owner = "duorua"
+repo = "narutomobile"
 #自用时换成自己的仓库owner和repo
 #注意，本地git user需与github一致才能实现成功@
 [changelog]
@@ -62,6 +62,9 @@ body = """
 
 # 尾部
 footer = """
+
+[已有 Mirror酱 CDK？点击前往高速下载](https://mirrorchyan.com/zh/projects?rid=MaaAutoNaruto&source=MaaAutoNarutogh-release)
+
 """
 
 [git]
@@ -84,7 +87,8 @@ commit_parsers = [
     { message = "^chore", group = "<!-- 8 -->🔧 日常维护" },
     { message = "^ci", group = "<!-- 7 -->⚙️ 持续集成" },
     { body = ".*security", group = "<!-- 9 -->🔒 安全" },
-    { message = "^revert", group = "<!-- 10 -->◀️ 撤销" },
+    { message = "^[Rr]evert", group = "<!-- 10 -->◀️ 撤销" },
+    { message = "^build", group = "<!-- 11 -->💼 构建" },
 ]
 
 # 忽略这些提交

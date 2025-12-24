@@ -17,11 +17,11 @@ jobs:
     steps:
       - id: check
         run: |
-          if [[ "${{ github.repository }}" == "MaaXYZ/MaaPracticeBoilerplate" ]]; then
-            echo "Repository is MaaXYZ/MaaPracticeBoilerplate, proceeding with sync"
+          if [[ "${{ github.repository }}" == "duorua/narutomobile" ]]; then
+            echo "Repository is duorua/narutomobile, proceeding with sync"
             echo "should_run=true" >> $GITHUB_OUTPUT
           else
-            echo "Repository is not MaaXYZ/MaaPracticeBoilerplate, skipping sync"
+            echo "Repository is not duorua/narutomobile, skipping sync"
             echo "should_run=false" >> $GITHUB_OUTPUT
           fi
 
@@ -41,7 +41,7 @@ jobs:
           # 确保目标目录存在
           mkdir -p deps/tools
           
-          # 下载四个JSON schema文件
+          # 下载三个JSON schema文件
           curl -s -o deps/tools/interface.schema.json https://raw.githubusercontent.com/MaaXYZ/MaaFramework/main/tools/interface.schema.json || echo "Failed to download interface.schema.json"
           curl -s -o deps/tools/interface_config.schema.json https://raw.githubusercontent.com/MaaXYZ/MaaFramework/main/tools/interface_config.schema.json || echo "Failed to download interface_config.schema.json"
           curl -s -o deps/tools/pipeline.schema.json https://raw.githubusercontent.com/MaaXYZ/MaaFramework/main/tools/pipeline.schema.json || echo "Failed to download pipeline.schema.json"
