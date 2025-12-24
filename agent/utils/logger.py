@@ -3,14 +3,10 @@ import sys
 
 from loguru import logger as _logger
 
-# 计算项目根目录的绝对路径（基于此脚本的位置）
-_current_file = Path(__file__).resolve()
-_utils_dir = _current_file.parent  # utils 目录
-_agent_dir = _utils_dir.parent  # agent 目录
-_project_root = _agent_dir.parent  # 项目根目录
+from .pathbase import project_root
 
 # 默认日志目录使用绝对路径
-log_dir = _project_root / "debug" / "custom"
+log_dir = project_root / "debug" / "custom"
 
 
 def setup_logger(log_dir: Path = log_dir, console_level: str = "INFO"):
