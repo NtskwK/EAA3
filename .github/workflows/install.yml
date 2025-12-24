@@ -128,6 +128,11 @@ jobs:
         run: |
           python3 tools/ci/download_deps.py --deps-dir ./install/python/Lib/site-packages --os ${{ matrix.os }} --arch ${{ matrix.arch }}
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EAA-${{ matrix.os }}-${{ matrix.arch }}
+          path: "install"
+
   changelog:
     name: Generate changelog
     runs-on: ubuntu-latest
