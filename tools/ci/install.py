@@ -18,16 +18,6 @@ def get_dotnet_platform_tag(os_name, arch) -> str:
     """自动检测当前平台并返回对应的dotnet平台标签"""
     if os_name == "win" and arch == "x86_64":
         platform_tag = "win-x64"
-    elif os_name == "win" and arch == "aarch64":
-        platform_tag = "win-arm64"
-    elif os_name == "macos" and arch == "x86_64":
-        platform_tag = "osx-x64"
-    elif os_name == "macos" and arch == "aarch64":
-        platform_tag = "osx-arm64"
-    elif os_name == "linux" and arch == "x86_64":
-        platform_tag = "linux-x64"
-    elif os_name == "linux" and arch == "aarch64":
-        platform_tag = "linux-arm64"
     else:
         print(f"Unsupported OS or architecture: {os_name}-{arch}")
         print("available parameters:")
@@ -128,15 +118,9 @@ def install_chores():
         ignore=shutil.ignore_patterns("*.yaml"),
     )
 
-    shutil.copy2(
-        working_dir / "docs" / "imgs" / "logo.ico", install_path / "Assets" / "logo.ico"
-    )
-
-    if platform.system() == "Linux":
-        shutil.copy2(
-            working_dir / "tools" / "deploy_python_env_linux.sh",
-            install_path / "deploy_python_env_linux.sh",
-        )
+    # shutil.copy2(
+    #     working_dir / "docs" / "imgs" / "logo.ico", install_path / "Assets" / "logo.ico"
+    # )
 
     shutil.copy2(
         working_dir / "tools" / "get_cli.sh",
@@ -160,10 +144,6 @@ def install_agent(os_name):
 
     if os_name == "win":
         interface["agent"]["child_exec"] = r"python/python.exe"
-    elif os_name == "macos":
-        interface["agent"]["child_exec"] = r"python/bin/python3"
-    elif os_name == "linux":
-        interface["agent"]["child_exec"] = r".venv/bin/python3"
     else:
         print(f"Unsupported OS: {os_name}")
         sys.exit(1)
