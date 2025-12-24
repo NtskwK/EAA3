@@ -65,8 +65,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [win, macos, linux]
-        arch: [aarch64, x86_64]
+        os: [win]
+        arch: [x86_64]
       fail-fast: false
 
     steps:
@@ -198,4 +198,3 @@ jobs:
           body: ${{ needs.changelog.outputs.release_body }}
           draft: false
           prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
-          
