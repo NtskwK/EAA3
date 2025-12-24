@@ -20,21 +20,22 @@ from .pathbase import project_root
 
 class Config:
     config_file = Path(project_root) / "config" / "config.json"
-    detail: dict = {}
 
     def __init__(self):
+        # default values
+        self.detail: dict = {}
+
         if self.config_file.exists():
             with open(self.config_file, "r", encoding="utf-8") as f:
                 self.detail = json.load(f)
             for key in self.detail:
-                self.detail[key] = self.detail[key]
                 setattr(self, key, self.detail[key])
 
     def get_value(self, key: str, default=None):
         return self.detail.get(key, default)
 
     def set_value(self, key: str, value):
-        self.detail[key] = value
-        setattr(self, key, value)
+        setattr(self, key, self.detail[key])
+        Path(self.config_file).parent.mkdir(parents=True, exist_ok=True)
         with open(self.config_file, "w", encoding="utf-8") as f:
             json.dump(self.detail, f, ensure_ascii=False, indent=4)
