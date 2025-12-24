@@ -123,10 +123,6 @@ def install_chores():
     # )
 
     shutil.copy2(
-        working_dir / "tools" / "get_cli.sh",
-        install_path / "get_cli.sh",
-    )
-    shutil.copy2(
         working_dir / "tools" / "get_cli.bat",
         install_path / "get_cli.bat",
     )
