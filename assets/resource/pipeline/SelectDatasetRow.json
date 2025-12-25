@@ -1,3 +1,29 @@
 {
-    "SelectDatasetRow": {}
+    "SelectDatasetRow": {
+        "action": "Custom",
+        "custom_action": "select_dataset_row",
+        "custom_action_param": {
+            "row_number": "",
+            "table_name": "",
+            "region": ""
+        }
+    },
+    "LoadData": {
+        "action": "Custom",
+        "custom_action": "load_data_detail",
+        "custom_action_param": {
+            "personId": "",
+            "personName": "",
+            "address": "",
+            "zdmj": "",
+            "jzmj": "",
+            "zcs": "",
+            "jcsj": "",
+            "estateCode": "",
+            "east": "",
+            "north": "",
+            "west": "",
+            "south": ""
+        }
+    }
 }

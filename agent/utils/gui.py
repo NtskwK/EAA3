@@ -17,7 +17,7 @@ from pathlib import Path
 import wx
 
 
-def select_file(
+def select_path(
     title: str, filters: str | None = None, is_dir: bool = False
 ) -> Path | None:
     app = wx.GetApp() or wx.App(False)
@@ -41,10 +41,10 @@ def select_file(
 
 
 def select_directory(title: str) -> Path | None:
-    return select_file(title, is_dir=True)
+    return select_path(title, is_dir=True)
 
 
 if __name__ == "__main__":
     # 简单测试
-    print(f"Selected file: {select_file('请选择一个文件')}")
+    print(f"Selected file: {select_path('请选择一个文件')}")
     print(f"Selected directory: {select_directory('请选择一个目录')}")

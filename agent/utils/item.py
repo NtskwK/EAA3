@@ -12,19 +12,18 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-from typing import List
-import openpyxl
-import csv
 
-
-def get_values_from_excel(
-    file_path: str, sheet_name: str, row: int, columns: List[str]
-) -> list:
-    workbook = openpyxl.load_workbook(file_path, data_only=True, read_only=True)
-    sheet = workbook[sheet_name]
-    values = []
-    for col in columns:
-        cell = sheet[f"{col}{row}"]
-        values.append(str(cell.value))
-
-    return values
+item_keys = [
+    "personId",
+    "personName",
+    "address",
+    "zdmj",
+    "jzmj",
+    "zcs",
+    "jcsj",
+    "estateCode",
+    "east",
+    "north",
+    "west",
+    "south",
+]
