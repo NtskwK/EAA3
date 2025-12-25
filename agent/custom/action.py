@@ -207,7 +207,8 @@ class SelectDatasetRow(CustomAction):
     ) -> CustomAction.RunResult:
         config = get_config()
         main_workbook_path = select_path(
-            "请选择主工作簿文件", filters="Excel文件 (*.xlsx;*.xls)|*.xlsx;*.xls"
+            "请选择主工作簿文件",
+            filters=[("Excel文件", "*.xlsx;*.xls"), ("所有文件", "*.*")],
         )
         housePlan_dir = select_path("请选择户型图文件夹", is_dir=True)
         estatePlan_dir = select_path("请选择宗地图文件夹", is_dir=True)

@@ -14,28 +14,32 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from pathlib import Path
-import wx
+import tkinter as tk
+from tkinter import filedialog
+from typing import List
 
 
 def select_path(
-    title: str, filters: str | None = None, is_dir: bool = False
+    title: str,
+    filters: List[tuple[str, str]] | None = None,
+    is_dir: bool = False,
 ) -> Path | None:
-    app = wx.GetApp() or wx.App(False)
+    root = tk.Tk()
+    root.withdraw()
+    # 确保窗口在最前面
+    root.attributes("-topmost", True)
 
     if is_dir:
-        with wx.DirDialog(
-            None, title, style=wx.DD_DEFAULT_STYLE | wx.DD_DIR_MUST_EXIST
-        ) as dialog:
-            if dialog.ShowModal() == wx.ID_OK:
-                return Path(dialog.GetPath())
+        path = filedialog.askdirectory(title=title)
     else:
         if filters is None:
-            filters = "All files (*.*)|*.*"
-        with wx.FileDialog(
-            None, title, wildcard=filters, style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST
-        ) as dialog:
-            if dialog.ShowModal() == wx.ID_OK:
-                return Path(dialog.GetPath())
+            filters = [("All Files", "*.*")]
+        path = filedialog.askopenfilename(title=title, filetypes=filters)
+
+    root.destroy()
+
+    if path:
+        return Path(path)
 
     return None
 
