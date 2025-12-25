@@ -301,7 +301,8 @@ class LoadDataDetail(CustomAction):
         return CustomAction.RunResult(success=True)
 
 
-def calc_inputbox(box: Rect, position: Literal["right", "bottom"]) -> Rect:
+def calc_inputbox(input: Rect, position: Literal["right", "bottom"]) -> Rect:
+    box = Rect(input.x, input.y, input.w, input.h)
     if position == "right":
         box[0] = box[0] + int(2 * box[2])  # type: ignore
     elif position == "bottom":
@@ -361,11 +362,15 @@ class ClickRight(CustomAction):
             return CustomAction.RunResult(success=False)
 
         box = calc_inputbox(argv.reco_detail.best_result.box, position="right")
-        context.tasker.controller.post_click(
-            box[0] + box[2] // 2, box[1] + box[3] // 2
-        ).wait()
+        is_success = (
+            context.tasker.controller.post_click(
+                box[0] + box[2] // 2, box[1] + box[3] // 2
+            )
+            .wait()
+            .succeeded
+        )
 
-        return CustomAction.RunResult(success=True)
+        return CustomAction.RunResult(success=is_success)
 
 
 @AgentServer.custom_action("input_value_from_config")
@@ -474,9 +479,8 @@ class SelectRightBox(CustomAction):
     ) -> CustomAction.RunResult:
         param = json.loads(argv.custom_action_param)
         scroll = param.get("scroll", 0)
-        key = param.get("key", None)
         target = param.get("target", None)
-        if key is None or target is None:
+        if target is None:
             logger.error("未配置数据键或目标")
             return CustomAction.RunResult(success=False)
 
