@@ -161,7 +161,8 @@
         "recognition": "OCR",
         "expected": "否",
         "index": 1,
-        "action": "填写宗地东至"
+        "action": "Click",
+        "next": "填写宗地东至"
     },
     "填写宗地东至": {
         "recognition": "OCR",
