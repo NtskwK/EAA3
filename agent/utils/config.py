@@ -23,7 +23,10 @@ class Config:
 
     def __init__(self):
         # default values
-        self.detail: dict = {}
+        self.detail: dict = {
+            "zdmj_max": 150,
+            "jzmd_max": 450,
+        }
 
         if self.config_file.exists():
             with open(self.config_file, "r", encoding="utf-8") as f:

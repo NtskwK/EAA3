@@ -9,21 +9,32 @@ from PIL import Image
 from maa.agent.agent_server import AgentServer, TaskDetail
 from maa.custom_action import CustomAction
 from maa.context import Context
-from maa.define import RectType, Rect
-from maa.pipeline import JActionType, JInputText
+from maa.define import RectType, Rect, RecognitionResult
+from maa.pipeline import (
+    JActionType,
+    JInputText,
+    JSwipe,
+    JTarget,
+    JOCR,
+    JRecognitionType,
+)
 
 from utils.excel import get_values_from_excel
 from utils.gui import select_path
 from utils.config import get_config
 from utils.logger import logger, log_dir
-from utils import get_format_timestamp
-from utils.item import item_keys
+from utils import get_format_timestamp, smaller
+from utils.item import item_keys, title_keys
 
 
 def click(context: Context, x: int, y: int, w: int = 1, h: int = 1):
-    context.tasker.controller.post_click(
-        random.randint(x, x + w - 1), random.randint(y, y + h - 1)
-    ).wait()
+    return (
+        context.tasker.controller.post_click(
+            random.randint(x, x + w - 1), random.randint(y, y + h - 1)
+        )
+        .wait()
+        .succeeded
+    )
 
 
 @AgentServer.custom_action("MyAction111")
@@ -290,41 +301,265 @@ class LoadDataDetail(CustomAction):
         return CustomAction.RunResult(success=True)
 
 
-def calc_inputbox(box: Rect, position: Literal["right", "bottom"]) -> Rect:
+def calc_inputbox(input: Rect, position: Literal["right", "bottom"]) -> Rect:
+    box = Rect(input.x, input.y, input.w, input.h)
     if position == "right":
-        box.x = box.x + int(1.5 * box.w)
+        box[0] = box[0] + int(2 * box[2])  # type: ignore
     elif position == "bottom":
-        box.y = box.y + int(1.5 * box.h)
+        box[1] = box[1] + int(1.5 * box[3])  # type: ignore
     else:
         raise ValueError(f"Unknown position: {position}")
     return box
 
 
-@AgentServer.custom_action("fill_estate_survey_project_name")
-class FillEstateSurveyProjectName(CustomAction):
+@AgentServer.custom_action("fill_program_name")
+class FillProgramName(CustomAction):
     def run(
         self,
         context: Context,
         argv: CustomAction.RunArg,
     ) -> CustomAction.RunResult:
-        config = get_config()
-        project_name = config.get_value("estate_survey_project_name", None)
-        if project_name is None:
-            logger.error("未配置项目名称")
-            return CustomAction.RunResult(success=False)
-
         if not argv.reco_detail or not argv.reco_detail.best_result:
             logger.error("未提供识别结果，无法定位输入框")
             return CustomAction.RunResult(success=False)
 
+        box = calc_inputbox(argv.reco_detail.best_result.box, position="right")
         is_success = (
-            context.tasker.post_action(
-                action_type=JActionType.InputText,
-                action_param=JInputText(input_text=project_name),
-                box=calc_inputbox(argv.reco_detail.best_result.box, position="right"),
+            context.tasker.controller.post_click(
+                box[0] + box[2] // 2, box[1] + box[3] // 2
+            )
+            .wait()
+            .succeeded
+        )
+        if not is_success:
+            logger.error("点击输入框失败")
+            return CustomAction.RunResult(success=False)
+
+        config = get_config()
+        prefix = "".join([str(config.get_value(key, "")) for key in title_keys])
+
+        suffix = json.loads(argv.custom_action_param).get("suffix", "")
+        program_name = f"{prefix}{suffix}"
+
+        is_success = (
+            context.tasker.controller.post_input_text(text=program_name)
+            .wait()
+            .succeeded
+        )
+
+        return CustomAction.RunResult(success=is_success)
+
+
+@AgentServer.custom_action("click_right")
+class ClickRight(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        if not argv.reco_detail or not argv.reco_detail.best_result:
+            logger.error("未提供识别结果，无法定位输入框")
+            return CustomAction.RunResult(success=False)
+
+        box = calc_inputbox(argv.reco_detail.best_result.box, position="right")
+        is_success = (
+            context.tasker.controller.post_click(
+                box[0] + box[2] // 2, box[1] + box[3] // 2
             )
             .wait()
             .succeeded
         )
 
         return CustomAction.RunResult(success=is_success)
+
+
+@AgentServer.custom_action("input_value_from_config")
+class InputValueFromConfig(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        key = json.loads(argv.custom_action_param).get("key", None)
+        if key is None:
+            logger.error("未配置数据键")
+            return CustomAction.RunResult(success=False)
+
+        config = get_config()
+        value = config.get_value(key, None)
+        if value is None:
+            logger.error(f"未找到配置 {key}")
+            return CustomAction.RunResult(success=False)
+
+        return CustomAction.RunResult(
+            success=context.tasker.controller.post_input_text(text=str(value))
+            .wait()
+            .succeeded
+        )
+
+
+@AgentServer.custom_action("fill_right_from_config")
+class FillRightFromConfig(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        if not argv.reco_detail or not argv.reco_detail.best_result:
+            logger.error("未提供识别结果，无法定位输入框")
+            return CustomAction.RunResult(success=False)
+
+        is_success = click(
+            context, *calc_inputbox(argv.reco_detail.best_result.box, position="right")
+        )
+        if not is_success:
+            logger.error("点击输入框失败")
+            return CustomAction.RunResult(success=False)
+        else:
+            logger.info("点击输入框")
+
+        key = json.loads(argv.custom_action_param).get("key", None)
+        if key is None:
+            logger.error("未配置数据键")
+            return CustomAction.RunResult(success=False)
+
+        config = get_config()
+        value = config.get_value(key, None)
+        if value is None:
+            logger.error(f"未找到配置 {key}")
+            return CustomAction.RunResult(success=False)
+        is_success = (
+            context.tasker.controller.post_input_text(text=str(value)).wait().succeeded
+        )
+
+        return CustomAction.RunResult(success=is_success)
+
+
+@AgentServer.custom_action("fill_pz_zdmj")
+class FillPzZdmj(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        if not argv.reco_detail or not argv.reco_detail.best_result:
+            logger.error("未提供识别结果，无法定位输入框")
+            return CustomAction.RunResult(success=False)
+
+        config = get_config()
+        zdmj_max = config.get_value("zdmj_max", None)
+        if zdmj_max is None:
+            logger.error("未配置最大宗地面积")
+            return CustomAction.RunResult(success=False)
+
+        zdmg = config.get_value("zdmg", None)
+        if zdmg is None:
+            logger.error("未配置宗地面积")
+            return CustomAction.RunResult(success=False)
+
+        try:
+            value = smaller(zdmj_max, zdmg)
+        except ValueError as e:
+            logger.error(f"Error comparing values: {e}")
+            return CustomAction.RunResult(success=False)
+
+        is_success = (
+            context.tasker.controller.post_input_text(text=str(value)).wait().succeeded
+        )
+
+        return CustomAction.RunResult(success=is_success)
+
+
+@AgentServer.custom_action("select_right_box")
+class SelectRightBox(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        param = json.loads(argv.custom_action_param)
+        scroll = param.get("scroll", 0)
+        target = param.get("target", None)
+        if target is None:
+            logger.error("未配置数据键或目标")
+            return CustomAction.RunResult(success=False)
+
+        if not argv.reco_detail or not argv.reco_detail.best_result:
+            logger.error("未提供识别结果，无法定位输入框")
+            return CustomAction.RunResult(success=False)
+
+        rect_box = argv.reco_detail.best_result.box
+        box = calc_inputbox(rect_box, position="right")
+        click_position = (box[0] + box[2] // 2, box[1] + box[3] // 2)
+        context.tasker.controller.post_click(*click_position).wait()
+        logger.info("激活输入框")
+
+        if scroll > 0:
+            context.tasker.post_action(
+                action_type=JActionType.Swipe,
+                action_param=JSwipe(
+                    only_hover=True, end=[box[0], box[1] + 50, box[2], box[3]]
+                ),
+            )
+            for i in range(scroll):
+                logger.info(f"滚动第{i+1}次")
+                is_success = context.tasker.controller.post_scroll(0, 120).wait()
+                if not is_success.succeeded:
+                    logger.error("滚动列表失败")
+                    return CustomAction.RunResult(success=False)
+
+        context.tasker.controller.post_screencap().wait()
+        img = context.tasker.controller.cached_image
+        job = context.tasker.post_recognition(
+            reco_type=JRecognitionType.OCR,
+            reco_param=JOCR(expected=target),
+            image=img,
+        ).wait()
+        detail = context.tasker.get_recognition_detail(job.job_id)
+        if not detail or not detail.hit:
+            logger.error("未识别到目标选项")
+            return CustomAction.RunResult(success=False)
+
+        # 计算label的右边界
+        rect_right_edge = rect_box.x + rect_box.w
+        results: List[RecognitionResult] = []
+        for result in detail.filtered_results:
+            # 只要位于label右侧的选项
+            if result.box.x > rect_right_edge:
+                results.append(result)
+
+        if not results:
+            logger.error("未找到位于输入框右侧的选项")
+            return CustomAction.RunResult(success=False)
+
+        best_result = results[0]
+        is_success = click(context, *(best_result.box))
+
+        return CustomAction.RunResult(success=is_success)
+
+
+@AgentServer.custom_action("debug")
+class DebugAction(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        if not argv.reco_detail or not argv.reco_detail.best_result:
+            logger.error("未提供识别结果，无法定位输入框")
+            return CustomAction.RunResult(success=False)
+
+        box = calc_inputbox(argv.reco_detail.best_result.box, position="right")
+        context.tasker.controller.post_click(
+            box[0] + box[2] // 2, box[1] + box[3] // 2
+        ).wait()
+
+        job = context.tasker.controller.post_input_text(
+            text="Debug action executed."
+        ).wait()
+
+        if not job.succeeded:
+            logger.error("执行输入文字动作失败")
+            return CustomAction.RunResult(success=False)
+
+        return CustomAction.RunResult(success=True)

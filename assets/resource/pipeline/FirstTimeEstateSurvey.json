@@ -21,7 +21,10 @@
         "recognition": "OCR",
         "expected": "项目名称",
         "action": "Custom",
-        "custom_action": "fill_estate_survey_project_name",
+        "custom_action": "fill_program_name",
+        "custom_action_param": {
+            "suffix": "宗地首次调查项目"
+        },
         "next": [
             "[Jumpback]受理",
             "宗地图形"
@@ -30,6 +33,233 @@
     "宗地图形": {
         "recognition": "OCR",
         "expected": "宗地图形",
+        "action": "Click",
+        "next": [
+            "[Jumpback]上传宗地图流程",
+            "编辑属性"
+        ]
+    },
+    "编辑属性": {
+        "recognition": "OCR",
+        "expected": "编辑属性",
+        "action": "Click",
+        "next": [
+            "选择所有权类型"
+        ]
+    },
+    "选择所有权类型": {
+        "recognition": "OCR",
+        "expected": "所有权类型",
+        "action": "Custom",
+        "custom_action": "click_right",
+        "next": "集体土地所有权"
+    },
+    "集体土地所有权": {
+        "recognition": "OCR",
+        "expected": "集体土地所有权",
+        "action": "Click",
+        "next": "选择宗地特征码"
+    },
+    "选择宗地特征码": {
+        "recognition": "OCR",
+        "expected": "宗地特征码",
+        "action": "Custom",
+        "custom_action": "click_right",
+        "next": "宅基地使用权宗地"
+    },
+    "宅基地使用权宗地": {
+        "recognition": "OCR",
+        "expected": "宅基地使用权宗地",
+        "action": "Click",
+        "next": "填写宗地代码"
+    },
+    "填写宗地代码": {
+        "recognition": "OCR",
+        "expected": "宗地代码",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "estate_code"
+        },
+        "next": "填写坐落"
+    },
+    "填写坐落": {
+        "recognition": "OCR",
+        "expected": "坐落",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "address"
+        },
+        "next": "点击生成"
+    },
+    "点击生成": {
+        "recognition": "OCR",
+        "expected": "生成",
         "action": "Click"
+    },
+    "选择权利类型": {
+        "recognition": "OCR",
+        "expected": "权利类型",
+        "action": "Custom",
+        "custom_action": "click_right",
+        "next": "点击宅基地使用权",
+        "post_delay": 1000
+    },
+    "点击宅基地使用权": {
+        "recognition": "OCR",
+        "expected": "宅基地使用权",
+        "action": "Click",
+        "next": "选择权利性质"
+    },
+    "选择权利性质": {
+        "recognition": "OCR",
+        "expected": "权利性质",
+        "action": "Custom",
+        "custom_action": "click_right",
+        "next": "找到出让"
+    },
+    "找到出让": {
+        "recognition": "OCR",
+        "expected": "出让",
+        "action": "Swipe",
+        "only_hover": true,
+        "next": [
+            "[Jumpback]向下滑动",
+            "点击批准拨用"
+        ]
+    },
+    "点击批准拨用": {
+        "recognition": "OCR",
+        "expected": "批准拨用",
+        "action": "Click",
+        "next": "选择权利设定方式"
+    },
+    "选择权利设定方式": {
+        "recognition": "OCR",
+        "expected": "权利设定方式",
+        "action": "Custom",
+        "custom_action": "click_right",
+        "next": "点击地表"
+    },
+    "点击地表": {
+        "recognition": "OCR",
+        "expected": "地表",
+        "action": "Click",
+        "next": [
+            "选择是否为集体经营性用地"
+        ]
+    },
+    "选择是否为集体经营性用地": {
+        "recognition": "OCR",
+        "expected": "是否为集体经营性用地",
+        "action": "Custom",
+        "custom_action": "click_right",
+        "next": "选择是否为集体经营性用地_否"
+    },
+    "选择是否为集体经营性用地_否": {
+        "recognition": "OCR",
+        "expected": "否",
+        "index": 1,
+        "action": "Click",
+        "next": "填写宗地东至"
+    },
+    "填写宗地东至": {
+        "recognition": "OCR",
+        "expected": "宗地东至",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "east"
+        },
+        "next": "填写宗地南至"
+    },
+    "填写宗地南至": {
+        "recognition": "OCR",
+        "expected": "宗地南至",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "south"
+        },
+        "next": "填写宗地西至"
+    },
+    "填写宗地西至": {
+        "recognition": "OCR",
+        "expected": "宗地西至",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "west"
+        },
+        "next": "填写宗地北至"
+    },
+    "填写宗地北至": {
+        "recognition": "OCR",
+        "expected": "宗地北至",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "north"
+        }
+    },
+    "填写批准面积": {
+        "recognition": "OCR",
+        "expected": "批准面积",
+        "action": "Custom",
+        "custom_action": "fill_pz_zdmj",
+        "next": [
+            "填写宗地面积"
+        ]
+    },
+    "填写宗地面积": {
+        "recognition": "OCR",
+        "expected": "宗地面积",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "zdmj"
+        },
+        "next": [
+            "填写建筑占地面积"
+        ]
+    },
+    "填写建筑占地面积": {
+        "recognition": "OCR",
+        "expected": "建筑占地面积",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "$doc": "与宗地面积相同",
+            "key": "zdmj"
+        },
+        "next": [
+            "填写建筑面积"
+        ]
+    },
+    "填写建筑面积": {
+        "recognition": "OCR",
+        "expected": "建筑面积",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "$doc": "建筑面积是要把每层都加起来的",
+            "key": "jzmj"
+        },
+        "next": [
+            "选择是否具备发证条件"
+        ]
+    },
+    "选择是否具备发证条件": {
+        "recognition": "OCR",
+        "expected": "是否具备发证条件",
+        "action": "Custom",
+        "custom_action": "click_right",
+        "next": "点击是"
+    },
+    "点击是": {
+        "recognition": "OCR",
+        "expected": "是",
+        "index": 1
     }
 }
