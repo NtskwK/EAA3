@@ -14,8 +14,8 @@
         "focus": "关闭空间检查"
     },
     "上图": {
-        "recognition": "上图",
-        "expected": "编辑属性",
+        "recognition": "OCR",
+        "expected": "上图",
         "action": "Click",
         "timeout": 120000,
         "next": "等待上图完成"
