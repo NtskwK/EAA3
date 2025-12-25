@@ -27,3 +27,9 @@ item_keys = [
     "west",
     "south",
 ]
+
+title_keys = [
+    "region",
+    "estateCode",
+    "personName",
+]

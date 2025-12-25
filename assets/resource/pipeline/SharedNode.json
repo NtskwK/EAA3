@@ -4,5 +4,48 @@
         "expected": "受理",
         "action": "Click",
         "max_hit": 1
+    },
+    "上传宗地图流程": {
+        "recognition": "OCR",
+        "expected": "空间检查",
+        "max_hit": 1,
+        "action": "Click",
+        "next": "上图",
+        "focus": "关闭空间检查"
+    },
+    "上图": {
+        "recognition": "上图",
+        "expected": "编辑属性",
+        "action": "Click",
+        "timeout": 120000,
+        "next": "等待上图完成"
+    },
+    "等待上图完成": {
+        "recognition": "OCR",
+        "expected": "编辑属性",
+        "focus": "宗地图上传完成"
+    },
+    "输入文字": {
+        "action": {
+            "type": "InputText",
+            "param": {
+                "input_text": ""
+            }
+        }
+    },
+    "向下滑动": {
+        "action": "Scroll",
+        "dy": 480,
+        "focus": "滚轮向下滑四下"
+    },
+    "debug": {
+        "next": "fill_debug"
+    },
+    "fill_debug": {
+        "recognition": "OCR",
+        "expected": "书籍",
+        "index": 1,
+        "action": "Custom",
+        "custom_action": "debug"
     }
 }
