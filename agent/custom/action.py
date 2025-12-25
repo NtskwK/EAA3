@@ -503,7 +503,7 @@ class SelectRightBox(CustomAction):
             )
             for i in range(scroll):
                 logger.info(f"滚动第{i+1}次")
-                is_success = context.tasker.controller.post_scroll(0, 120).wait()
+                is_success = context.tasker.controller.post_scroll(0, -120).wait()
                 if not is_success.succeeded:
                     logger.error("滚动列表失败")
                     return CustomAction.RunResult(success=False)
