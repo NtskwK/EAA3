@@ -40,3 +40,13 @@ class Config:
         Path(self.config_file).parent.mkdir(parents=True, exist_ok=True)
         with open(self.config_file, "w", encoding="utf-8") as f:
             json.dump(self.detail, f, ensure_ascii=False, indent=4)
+
+
+config: Config | None = None
+
+
+def get_config() -> Config:
+    global config
+    if config is None:
+        config = Config()
+    return config

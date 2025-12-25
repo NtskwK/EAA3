@@ -1,17 +1,23 @@
 import os
 import json
+from pathlib import Path
 import random
-from typing import Optional, Tuple
+from typing import List, Literal, Optional, Tuple
 
 from PIL import Image
 
 from maa.agent.agent_server import AgentServer, TaskDetail
 from maa.custom_action import CustomAction
 from maa.context import Context
-from maa.define import RectType
+from maa.define import RectType, Rect
+from maa.pipeline import JActionType, JInputText
 
+from utils.excel import get_values_from_excel
+from utils.gui import select_path
+from utils.config import get_config
 from utils.logger import logger, log_dir
 from utils import get_format_timestamp
+from utils.item import item_keys
 
 
 def click(context: Context, x: int, y: int, w: int = 1, h: int = 1):
@@ -190,3 +196,135 @@ class GoIntoEntry(CustomAction):
             return False, None
 
         return True, reco_detail.best_result.box
+
+
+@AgentServer.custom_action("select_dataset_row")
+class SelectDatasetRow(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        config = get_config()
+        main_workbook_path = select_path(
+            "请选择主工作簿文件",
+            filters=[("Excel文件", "*.xlsx;*.xls"), ("所有文件", "*.*")],
+        )
+        housePlan_dir = select_path("请选择户型图文件夹", is_dir=True)
+        estatePlan_dir = select_path("请选择宗地图文件夹", is_dir=True)
+        familyMember_dir = select_path("请选择家庭成员信息文件夹", is_dir=True)
+        for path in [
+            main_workbook_path,
+            housePlan_dir,
+            estatePlan_dir,
+            familyMember_dir,
+        ]:
+            if (path is None) or (not path.exists()):
+                logger.error(f"路径无效: {path}")
+                return CustomAction.RunResult(success=False)
+        path_details = [
+            ("main_workbook_path", str(main_workbook_path)),
+            ("housePlan_dir", str(housePlan_dir)),
+            ("estatePlan_dir", str(estatePlan_dir)),
+            ("familyMember_dir", str(familyMember_dir)),
+        ]
+        for key, path in path_details:
+            config.set_value(key, path)
+            logger.info(f"已设置 {key} 为 {path}")
+
+        param = json.loads(argv.custom_action_param)
+        keys = ["row_number", "table_name", "region"]
+        for key in keys:
+            if not key in param:
+                logger.error(f"参数缺失: {key}")
+                return CustomAction.RunResult(success=False)
+
+            config.set_value(key, param[key])
+            logger.info(f"已设置 {key} 为 {param[key]}")
+
+        return CustomAction.RunResult(success=True)
+
+
+@AgentServer.custom_action("load_data_detail")
+class LoadDataDetail(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        config = get_config()
+        row_number = config.get_value("row_number", None)
+        table_name = config.get_value("table_name", None)
+        if row_number is None or table_name is None:
+            logger.error("未配置行号或表名")
+            return CustomAction.RunResult(success=False)
+
+        logger.info(f"正在加载 行号: {row_number}, 表名: {table_name}")
+        param = json.loads(argv.custom_action_param)
+
+        row = {}
+        column_names = []
+        for key in item_keys:
+            v = param.get(key, None)
+            if v is None:
+                logger.error(f"参数缺失: {key}")
+                return CustomAction.RunResult(success=False)
+            logger.info(f"已加载 {key}: {v}")
+            column_names.append(v)
+
+        data_array = get_values_from_excel(
+            str(config.get_value("main_workbook_path", "")),
+            table_name,
+            row_number,
+            column_names,
+        )
+        for k, v in zip(item_keys, data_array):
+            if v is None:
+                logger.error(f"数据缺失: {k}")
+                return CustomAction.RunResult(success=False)
+            row[k] = v
+            logger.info(f"已读取 {k}: {v}")
+
+        config.set_value("current_data_row", row)
+
+        return CustomAction.RunResult(success=True)
+
+
+def calc_inputbox(box: Rect, position: Literal["right", "bottom"]) -> Rect:
+    if position == "right":
+        box.x = box.x + int(1.5 * box.w)
+    elif position == "bottom":
+        box.y = box.y + int(1.5 * box.h)
+    else:
+        raise ValueError(f"Unknown position: {position}")
+    return box
+
+
+@AgentServer.custom_action("fill_estate_survey_project_name")
+class FillEstateSurveyProjectName(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        config = get_config()
+        project_name = config.get_value("estate_survey_project_name", None)
+        if project_name is None:
+            logger.error("未配置项目名称")
+            return CustomAction.RunResult(success=False)
+
+        if not argv.reco_detail or not argv.reco_detail.best_result:
+            logger.error("未提供识别结果，无法定位输入框")
+            return CustomAction.RunResult(success=False)
+
+        is_success = (
+            context.tasker.post_action(
+                action_type=JActionType.InputText,
+                action_param=JInputText(input_text=project_name),
+                box=calc_inputbox(argv.reco_detail.best_result.box, position="right"),
+            )
+            .wait()
+            .succeeded
+        )
+
+        return CustomAction.RunResult(success=is_success)

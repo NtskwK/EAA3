@@ -3,7 +3,7 @@
     "name": "EstateAutoAssistant3",
     "description": "第三代网页填报助手",
     "contact": "natsukawa247@outlook.com",
-    "license": "MIT",
+    "license": "AGPL-3.0",
     "welcome": "首次使用！欢迎使用 EstateAutoAssistant3!",
     "github": "https://github.com/NtskwK/EAA3",
     "version": "1.0.0",
@@ -43,7 +43,11 @@
             "name": "选择数据",
             "entry": "SelectDatasetRow",
             "description": "选择数据行。<span style=\"color:tomato\">必选！</span>",
-            "default_check": true
+            "default_check": true,
+            "option": [
+                "选择数据",
+                "读取数据"
+            ]
         },
         {
             "name": "首次宗地调查",
@@ -60,5 +64,121 @@
             "entry": "Register",
             "default_check": true
         }
-    ]
+    ],
+    "option": {
+        "选择数据": {
+            "type": "input",
+            "inputs": [
+                {
+                    "name": "输入行数",
+                    "default": "2",
+                    "pipeline_type": "int",
+                    "description": "输入数据位于excel文件中的行数",
+                    "verify": "^([1-9]\\d*)$"
+                },
+                {
+                    "name": "表名",
+                    "pipeline_type": "string"
+                },
+                {
+                    "name": "地区",
+                    "pipeline_type": "string",
+                    "description": "输入数据所属地区"
+                }
+            ],
+            "pipeline_override": {
+                "SelectDatasetRow": {
+                    "custom_action_param": {
+                        "row_number": "{输入行数}",
+                        "table_name": "{表名}",
+                        "region": "{地区}"
+                    }
+                }
+            }
+        },
+        "读取数据": {
+            "description": "值的列名",
+            "type": "input",
+            "inputs": [
+                {
+                    "name": "姓名",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                },
+                {
+                    "name": "身份证号",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                },
+                {
+                    "name": "地址",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                },
+                {
+                    "name": "占地面积",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                },
+                {
+                    "name": "建筑面积",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                },
+                {
+                    "name": "总层数",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                },
+                {
+                    "name": "竣工时间",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                },
+                {
+                    "name": "宗地代码",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                },
+                {
+                    "name": "东至",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                },
+                {
+                    "name": "北至",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                },
+                {
+                    "name": "西至",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                },
+                {
+                    "name": "南至",
+                    "pipeline_type": "string",
+                    "verify": "^[A-Z]$"
+                }
+            ],
+            "pipeline_override": {
+                "LoadData": {
+                    "custom_action_param": {
+                        "personName": "{姓名}",
+                        "personId": "{身份证号}",
+                        "address": "{地址}",
+                        "zdmj": "{占地面积}",
+                        "jzmj": "{建筑面积}",
+                        "zcs": "{总层数}",
+                        "jcsj": "{竣工时间}",
+                        "estateCode": "{宗地代码}",
+                        "east": "{东至}",
+                        "north": "{北至}",
+                        "west": "{西至}",
+                        "south": "{南至}"
+                    }
+                }
+            }
+        }
+    }
 }
