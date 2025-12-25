@@ -14,14 +14,14 @@
     "宗地首次调查": {
         "recognition": "OCR",
         "expected": "宗地首次调查",
-        "action": "Custom",
-        "custom_action": "fill_estate_survey_project_name",
+        "action": "Click",
         "next": "填写宗地首次调查项目名称"
     },
     "填写宗地首次调查项目名称": {
         "recognition": "OCR",
         "expected": "项目名称",
-        "action": "FillProjectName",
+        "action": "Custom",
+        "custom_action": "fill_estate_survey_project_name",
         "next": [
             "[Jumpback]受理",
             "宗地图形"
@@ -30,6 +30,6 @@
     "宗地图形": {
         "recognition": "OCR",
         "expected": "宗地图形",
-        "action": "Click",
-    },
+        "action": "Click"
+    }
 }
