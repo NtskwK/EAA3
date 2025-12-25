@@ -25,6 +25,9 @@ def get_values_from_excel(
     values = []
     for col in columns:
         cell = sheet[f"{col}{row}"]
-        values.append(str(cell.value))
+        if cell.value is None:
+            values.append("")
+        else:
+            values.append(str(cell.value))
 
     return values
