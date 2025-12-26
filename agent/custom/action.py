@@ -452,13 +452,13 @@ class FillPzZdmj(CustomAction):
             logger.error("未配置最大宗地面积")
             return CustomAction.RunResult(success=False)
 
-        zdmg = config.get_value("zdmg", None)
-        if zdmg is None:
+        zdmj = config.get_value("zdmj", None)
+        if zdmj is None:
             logger.error("未配置宗地面积")
             return CustomAction.RunResult(success=False)
 
         try:
-            value = smaller(zdmj_max, zdmg)
+            value = smaller(zdmj_max, zdmj)
         except ValueError as e:
             logger.error(f"Error comparing values: {e}")
             return CustomAction.RunResult(success=False)
@@ -495,12 +495,16 @@ class SelectRightBox(CustomAction):
         logger.info("激活输入框")
 
         if scroll > 0:
-            context.tasker.post_action(
+            is_success = context.tasker.post_action(
                 action_type=JActionType.Swipe,
                 action_param=JSwipe(
                     only_hover=True, end=[box[0], box[1] + 50, box[2], box[3]]
                 ),
-            )
+            ).wait()
+            if not is_success.succeeded:
+                logger.error("滑动至选项框失败")
+                return CustomAction.RunResult(success=False)
+
             for i in range(scroll):
                 logger.info(f"滚动第{i+1}次")
                 is_success = context.tasker.controller.post_scroll(0, -120).wait()
