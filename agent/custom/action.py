@@ -460,7 +460,9 @@ class FillPzZdmj(CustomAction):
         try:
             value = smaller(zdmj_max, zdmj)
         except ValueError as e:
-            logger.error(f"Error comparing values: {e}")
+            logger.error(
+                f"Error comparing values with smaller(zdmj_max={zdmj_max}, zdmj={zdmj}):{e}"
+            )
             return CustomAction.RunResult(success=False)
 
         is_success = (
