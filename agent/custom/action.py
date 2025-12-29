@@ -213,7 +213,7 @@ class LoadDataDetail(CustomAction):
 
             if k == "jcsj":
                 try:
-                    v = datetime.strptime(v, "%Y-%m-%d").strftime("%Y/%m/%d")
+                    v = datetime.strptime(v, "%Y/%m/%d").strftime("%Y-%m-%d")
                 except ValueError as e:
                     logger.error(f"日期格式错误: {v} - {e}")
                     return CustomAction.RunResult(success=False)
