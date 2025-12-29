@@ -324,6 +324,9 @@ class FillRightFromConfig(CustomAction):
         context: Context,
         argv: CustomAction.RunArg,
     ) -> CustomAction.RunResult:
+        """
+        :key: 配置中的数据键
+        """
         if not argv.reco_detail or not argv.reco_detail.best_result:
             logger.error("未提供识别结果，无法定位输入框")
             return CustomAction.RunResult(success=False)

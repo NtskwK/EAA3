@@ -441,11 +441,9 @@
         "recognition": "OCR",
         "expected": "关闭",
         "action": "Click",
-        "next": "转出首次宗地调查"
-    },
-    "转出首次宗地调查": {
-        "recognition": "OCR",
-        "expected": "转出",
-        "action": "Click"
+        "post_delay": 3000,
+        "next": [
+            "转出"
+        ]
     }
 }
