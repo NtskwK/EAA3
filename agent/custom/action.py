@@ -212,7 +212,11 @@ class LoadDataDetail(CustomAction):
                 return CustomAction.RunResult(success=False)
 
             if k == "jcsj":
-                v = datetime.strptime(v, "%Y-%m-%d").strftime("%Y/%m/%d")
+                try:
+                    v = datetime.strptime(v, "%Y-%m-%d").strftime("%Y/%m/%d")
+                except ValueError as e:
+                    logger.error(f"日期格式错误: {v} - {e}")
+                    return CustomAction.RunResult(success=False)
 
             row[k] = v
             logger.info(f"已读取 {k}: {v}")
