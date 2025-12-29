@@ -4,7 +4,6 @@
         "expected": "业务受理",
         "action": "Click",
         "next": [
-            "[Jumpback]从业务受理进入常办业务",
             "宗地首次调查"
         ],
         "focus": "进入业务受理模块"
