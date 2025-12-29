@@ -526,8 +526,13 @@ class InputSzc(CustomAction):
             logger.error("未配置总层数")
             return CustomAction.RunResult(success=False)
 
-        if int(zcs) > 1:
-            szc_text = f"1-{zcs}"
+        int_zcs = int(zcs)
+        if int_zcs < 1:
+            logger.error("总层数配置无效，必须为大于等于 1 的整数，当前值为：%s", zcs)
+            return CustomAction.RunResult(success=False)
+
+        if int_zcs > 1:
+            szc_text = f"1-{int_zcs}"
         else:
             szc_text = "1"
 
