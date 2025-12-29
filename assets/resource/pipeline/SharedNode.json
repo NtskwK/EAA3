@@ -1,4 +1,16 @@
 {
+    "从业务受理进入常办业务": {
+        "recognition": "OCR",
+        "expected": "业务受理",
+        "action": "Click",
+        "next": "常办业务"
+    },
+    "常办业务": {
+        "recognition": "OCR",
+        "expected": "常办业务",
+        "action": "Click",
+        "post_delay": 5000
+    },
     "受理": {
         "recognition": "OCR",
         "expected": "受理",
@@ -47,5 +59,66 @@
         "index": 1,
         "action": "Custom",
         "custom_action": "debug"
+    },
+    "转出": {
+        "recognition": "OCR",
+        "expected": "转出",
+        "action": "Click",
+        "max_hit": 1,
+        "next": "点击按名称模糊查询"
+    },
+    "点击按名称模糊查询": {
+        "recognition": "OCR",
+        "expected": "按名称模糊查询",
+        "action": "Click",
+        "next": "输入用户名"
+    },
+    "输入用户名": {
+        "recognition": "OCR",
+        "expected": "按名称模糊查询",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "username"
+        },
+        "order_by": "Vertical",
+        "index": -1,
+        "next": "选择用户名"
+    },
+    "选择用户名": {
+        "recognition": "OCR",
+        "expected": "",
+        "action": "Click",
+        "next": "点击确认"
+    },
+    "点击确认": {
+        "recognition": "OCR",
+        "expected": "确认",
+        "action": "Click",
+        "post_delay": 3000,
+        "next": "点击代办箱"
+    },
+    "点击代办箱": {
+        "recognition": "OCR",
+        "expected": "代办箱",
+        "action": "Click",
+        "next": "点击宗地首次调查"
+    },
+    "点击宗地首次调查": {
+        "recognition": "OCR",
+        "expected": "宗地首次调查",
+        "action": "Click",
+        "next": "点击转出2"
+    },
+    "点击转出2": {
+        "recognition": "OCR",
+        "expected": "转出",
+        "action": "Click",
+        "next": "点击确定"
+    },
+    "点击确定": {
+        "recognition": "OCR",
+        "expected": "确定",
+        "action": "Click"
     }
 }

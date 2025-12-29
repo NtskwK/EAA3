@@ -3,13 +3,11 @@
         "recognition": "OCR",
         "expected": "业务受理",
         "action": "Click",
-        "next": "常办业务"
-    },
-    "常办业务": {
-        "recognition": "OCR",
-        "expected": "常办业务",
-        "action": "Click",
-        "next": "宗地首次调查"
+        "next": [
+            "宗地首次调查"
+        ],
+        "timeout": 10000,
+        "on_error": "[Jumpback]从业务受理进入常办业务"
     },
     "宗地首次调查": {
         "recognition": "OCR",
@@ -441,11 +439,9 @@
         "recognition": "OCR",
         "expected": "关闭",
         "action": "Click",
-        "next": "转出首次宗地调查"
-    },
-    "转出首次宗地调查": {
-        "recognition": "OCR",
-        "expected": "转出",
-        "action": "Click"
+        "post_delay": 3000,
+        "next": [
+            "转出"
+        ]
     }
 }

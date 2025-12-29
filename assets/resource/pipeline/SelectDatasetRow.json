@@ -25,5 +25,12 @@
             "west": "",
             "south": ""
         }
+    },
+    "confirm_data": {
+        "action": "Custom",
+        "custom_action": "confirm_data",
+        "custom_action_param": {
+            "username": ""
+        }
     }
 }

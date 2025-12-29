@@ -13,7 +13,7 @@
             "type": "Win32",
             "win32": {
                 "class_regex": ".*",
-                "window_regex": ".*番组计划.*",
+                "window_regex": "广信不动产信息管理云平台",
                 // 截图及控制方式，请根据项目实际情况修改
                 // 文档: https://maafw.xyz/docs/2.4-ControlMethods
                 "screencap": "PrintWindow", // 截图方式
@@ -48,7 +48,8 @@
             "default_check": true,
             "option": [
                 "选择数据",
-                "读取数据"
+                "读取数据",
+                "账号信息"
             ]
         },
         {
@@ -183,6 +184,26 @@
                         "west": "{西至}",
                         "south": "{南至}"
                     }
+                }
+            }
+        },
+        "账号信息": {
+            "type": "input",
+            "inputs": [
+                {
+                    "name": "用户名",
+                    "pipeline_type": "string",
+                    "description": "登陆账号的用户名"
+                }
+            ],
+            "pipeline_override": {
+                "confirm_data": {
+                    "custom_action_param": {
+                        "username": "{用户名}"
+                    }
+                },
+                "选择用户名": {
+                    "expected": "{用户名}"
                 }
             }
         }
