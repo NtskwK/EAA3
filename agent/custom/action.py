@@ -259,11 +259,12 @@ class ConfirmData(CustomAction):
 
 
 def calc_inputbox(input: Rect, position: Literal["right", "bottom"]) -> Rect:
-    box = Rect(input[0], input[1], input[2], input[3])
     if position == "right":
-        box[0] = box[0] + int(3 * box[2])  # type: ignore
+        box = Rect(x=(input[0] + int(3 * input[2])), y=input[1], w=input[2], h=input[3])
     elif position == "bottom":
-        box[1] = box[1] + int(1.5 * box[3])  # type: ignore
+        box = Rect(
+            x=input[0], y=(input[1] + int(1.5 * input[3])), w=input[2], h=input[3]
+        )
     else:
         raise ValueError(f"Unknown position: {position}")
     return box

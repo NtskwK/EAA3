@@ -2,6 +2,7 @@
     "从业务受理进入常办业务": {
         "recognition": "OCR",
         "expected": "业务受理",
+        "max_hit": 1,
         "action": "Click",
         "next": "常办业务",
         "focus": "点击业务受理"
