@@ -37,29 +37,6 @@ def click(context: Context, x: int, y: int, w: int = 1, h: int = 1):
     )
 
 
-@AgentServer.custom_action("MyAction111")
-class MyAction111(CustomAction):
-
-    def run(
-        self,
-        context: Context,
-        argv: CustomAction.RunArg,
-    ) -> CustomAction.RunResult:
-
-        logger.info("MyAction111 is running!")
-
-        # 监听任务停止信号以提前终止任务
-        # 相当于用户按下了“停止”按钮
-        if context.tasker.stopping:
-            logger.info("Task is stopping, exiting MyAction111 early.")
-            return CustomAction.RunResult(success=False)
-
-        # 执行自定义任务
-        # ...
-
-        return CustomAction.RunResult(success=True)
-
-
 @AgentServer.custom_action("Screenshot")
 class Screenshot(CustomAction):
     """
@@ -111,102 +88,6 @@ class Screenshot(CustomAction):
         )
 
         return CustomAction.RunResult(success=True)
-
-
-@AgentServer.custom_action("GoIntoEntry")
-class GoIntoEntry(CustomAction):
-    """
-    从主界面获取功能入口
-    参数:
-    {
-        "template": "功能入口的匹配模板"
-    }
-    """
-
-    def run(
-        self,
-        context: Context,
-        argv: CustomAction.RunArg,
-    ) -> CustomAction.RunResult:
-        target = json.loads(argv.custom_action_param).get("template", "")
-        if not isinstance(target, str) and not isinstance(target, list):
-            logger.error(f"目标格式错误: {target}")
-            context.tasker.post_stop()
-            return CustomAction.RunResult(success=False)
-        # 检查目标是否为空字符串或空列表
-        if (isinstance(target, str) and not target.strip()) or (
-            isinstance(target, list) and len(target) == 0
-        ):
-            logger.error(f"目标为空: {target}")
-            context.tasker.post_stop()
-            return CustomAction.RunResult(success=False)
-
-        found, box = self.rec_entry(context, target)
-        if found and box is not None:
-            logger.info("识别到功能入口")
-            click(context, *box)
-            return CustomAction.RunResult(success=True)
-
-        if context.tasker.stopping:
-            logger.info("任务停止，提前退出")
-            return CustomAction.RunResult(success=False)
-
-        # 右滑两次
-        for i in range(2):
-            logger.info(f"右滑第{i+1}次")
-            context.run_task("main_screen_swipe_to_right")
-            context.tasker.controller.post_screencap().wait()
-            found, box = self.rec_entry(context, target)
-            if found and box is not None:
-                logger.info("识别到功能入口")
-                click(context, *box)
-                return CustomAction.RunResult(success=True)
-            if context.tasker.stopping:
-                logger.info("任务停止，提前退出")
-                return CustomAction.RunResult(success=False)
-
-        # 左滑两次
-        for i in range(2):
-            logger.info(f"左滑第{i+1}次")
-            context.run_task("main_screen_swipe_to_left")
-            context.tasker.controller.post_screencap().wait()
-            found, box = self.rec_entry(context, target)
-            if found and box is not None:
-                logger.info("识别到功能入口")
-                click(context, *box)
-                return CustomAction.RunResult(success=True)
-            if context.tasker.stopping:
-                logger.info("任务停止，提前退出")
-                return CustomAction.RunResult(success=False)
-
-        logger.error("获取功能入口失败")
-        return CustomAction.RunResult(success=False)
-
-    def rec_entry(
-        self, context: Context, template: str | list[str]
-    ) -> Tuple[bool, Optional[RectType]]:
-        reco_detail = context.run_recognition(
-            "click_entry",
-            context.tasker.controller.cached_image,
-            {
-                "click_entry": {
-                    "recognition": {
-                        "param": {
-                            "template": template,
-                        }
-                    }
-                },
-            },
-        )
-        if reco_detail is None or not reco_detail.hit:
-            logger.info("未识别到功能入口")
-            return False, None
-
-        if reco_detail.best_result is None:
-            logger.warning("识别到功能入口但解析失败(best_result为空)")
-            return False, None
-
-        return True, reco_detail.best_result.box
 
 
 @AgentServer.custom_action("select_dataset_row")
@@ -263,6 +144,10 @@ class LoadDataDetail(CustomAction):
         context: Context,
         argv: CustomAction.RunArg,
     ) -> CustomAction.RunResult:
+        """
+        :row_number: 数据行号
+        :table_name: 数据表名
+        """
         config = get_config()
         row_number = config.get_value("row_number", None)
         table_name = config.get_value("table_name", None)
@@ -304,7 +189,7 @@ class LoadDataDetail(CustomAction):
 def calc_inputbox(input: Rect, position: Literal["right", "bottom"]) -> Rect:
     box = Rect(input.x, input.y, input.w, input.h)
     if position == "right":
-        box[0] = box[0] + int(2 * box[2])  # type: ignore
+        box[0] = box[0] + int(3 * box[2])  # type: ignore
     elif position == "bottom":
         box[1] = box[1] + int(1.5 * box[3])  # type: ignore
     else:
@@ -380,6 +265,9 @@ class InputValueFromConfig(CustomAction):
         context: Context,
         argv: CustomAction.RunArg,
     ) -> CustomAction.RunResult:
+        """
+        :key: 配置中的数据键
+        """
         key = json.loads(argv.custom_action_param).get("key", None)
         if key is None:
             logger.error("未配置数据键")
@@ -479,6 +367,10 @@ class SelectRightBox(CustomAction):
         context: Context,
         argv: CustomAction.RunArg,
     ) -> CustomAction.RunResult:
+        """
+        :scroll: 向下滚动次数
+        :target: 目标选项文本
+        """
         param = json.loads(argv.custom_action_param)
         scroll = param.get("scroll", 0)
         target = param.get("target", None)
