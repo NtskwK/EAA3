@@ -100,10 +100,10 @@ jobs:
           rm -f "${ARCHIVE_FILE_PATH}"
           echo "Archive cleanup command executed for MFAAvalonia."
 
-      - name: Setup Embed Python
+      - name: Setup Python
         shell: bash
         run: |
-          python3 tools/ci/setup_embed_python.py ${{ matrix.os }} ${{ matrix.arch }}
+          python3 tools/ci/setup_python.py ${{ matrix.os }} ${{ matrix.arch }}
 
       - name: Install
         shell: bash

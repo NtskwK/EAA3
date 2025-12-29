@@ -259,7 +259,7 @@ class ConfirmData(CustomAction):
 
 
 def calc_inputbox(input: Rect, position: Literal["right", "bottom"]) -> Rect:
-    box = Rect(input.x, input.y, input.w, input.h)
+    box = Rect(input[0], input[1], input[2], input[3])
     if position == "right":
         box[0] = box[0] + int(3 * box[2])  # type: ignore
     elif position == "bottom":
@@ -494,11 +494,11 @@ class SelectRightBox(CustomAction):
             return CustomAction.RunResult(success=False)
 
         # 计算label的右边界
-        rect_right_edge = rect_box.x + rect_box.w
+        rect_right_edge = rect_box[0] + rect_box[2]
         results: List[RecognitionResult] = []
         for result in detail.filtered_results:
             # 只要位于label右侧的选项
-            if result.box.x > rect_right_edge:
+            if result.box[0] > rect_right_edge:
                 results.append(result)
 
         if not results:
