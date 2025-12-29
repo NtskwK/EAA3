@@ -6,7 +6,8 @@
             "row_number": "",
             "table_name": "",
             "region": ""
-        }
+        },
+        "focus": "选择数据源"
     },
     "LoadData": {
         "action": "Custom",
@@ -24,13 +25,15 @@
             "north": "",
             "west": "",
             "south": ""
-        }
+        },
+        "focus": "加载数据"
     },
     "confirm_data": {
         "action": "Custom",
         "custom_action": "confirm_data",
         "custom_action_param": {
             "username": ""
-        }
+        },
+        "focus": "确认数据"
     }
 }
