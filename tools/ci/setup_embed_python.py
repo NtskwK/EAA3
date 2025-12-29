@@ -16,7 +16,7 @@ PYTHON_VERSION_TARGET = "3.12.10"  # 目标 Python 版本
 # python-build-standalone 的发布标签，需要与 PYTHON_VERSION_TARGET 兼容
 # 前往 https://github.com/indygreg/python-build-standalone/releases 查看最新标签和可用版本
 PYTHON_BUILD_STANDALONE_RELEASE_TAG = "20250409"
-
+IS_EMBED = False
 DEST_DIR = os.path.join("install", "python")  # Python 安装的目标目录
 
 # --- 辅助函数 ---
@@ -168,7 +168,7 @@ def main():
 
         print(f"使用Windows架构: {os_arch} -> {win_arch_suffix}")
 
-        download_url = f"https://www.python.org/ftp/python/{PYTHON_VERSION_TARGET}/python-{PYTHON_VERSION_TARGET}-embed-{win_arch_suffix}.zip"
+        download_url = f"https://www.python.org/ftp/python/{PYTHON_VERSION_TARGET}/python-{PYTHON_VERSION_TARGET}{'-embed' if IS_EMBED else ''}-{win_arch_suffix}.zip"
         zip_filename = f"python-{PYTHON_VERSION_TARGET}-embed-{win_arch_suffix}.zip"
         zip_filepath = os.path.join(DEST_DIR, zip_filename)  # 下载到目标目录内再解压
 
