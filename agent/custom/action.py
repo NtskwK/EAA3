@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import json
 import random
@@ -34,6 +35,38 @@ def click(context: Context, x: int, y: int, w: int = 1, h: int = 1):
         .wait()
         .succeeded
     )
+
+
+def active_and_fill(context: Context, box: Rect, text: str):
+    """
+    激活输入框并填写内容
+    直接在输入框中心点击并输入
+    """
+    is_success = click(context, box[0] + box[2] // 2, box[1] + box[3] // 2)
+    if not is_success:
+        logger.error("点击输入框失败")
+        return False
+
+    logger.info("点击输入框")
+    is_success = context.tasker.controller.post_input_text(text=text).wait().succeeded
+    return is_success
+
+
+def active_and_fill_v2(context: Context, box: Rect, text: str):
+    """
+    激活输入框并填写内容
+    适用于输入框在右侧的情况
+    相比 active_and_fill 自带了向右偏移的功能
+    """
+    box = calc_inputbox(box, position="right")
+    is_success = click(context, box[0] + box[2] // 2, box[1] + box[3] // 2)
+    if not is_success:
+        logger.error("点击输入框失败")
+        return False
+
+    logger.info("点击输入框")
+    is_success = context.tasker.controller.post_input_text(text=text).wait().succeeded
+    return is_success
 
 
 @AgentServer.custom_action("Screenshot")
@@ -177,6 +210,10 @@ class LoadDataDetail(CustomAction):
             if v is None:
                 logger.error(f"数据缺失: {k}")
                 return CustomAction.RunResult(success=False)
+
+            if k == "jcsj":
+                v = datetime.strptime(v, "%Y-%m-%d").strftime("%Y/%m/%d")
+
             row[k] = v
             logger.info(f"已读取 {k}: {v}")
 
@@ -467,6 +504,32 @@ class SelectRightBox(CustomAction):
         best_result = results[0]
         is_success = click(context, *(best_result.box))
 
+        return CustomAction.RunResult(success=is_success)
+
+
+@AgentServer.custom_action("input_szc")
+class InputSzc(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        if not argv.reco_detail or not argv.reco_detail.best_result:
+            logger.error("未提供识别结果，无法定位输入框")
+            return CustomAction.RunResult(success=False)
+        zcs: str = get_config().get_value("zcs", "")  # type: ignore
+        if zcs == "" or not zcs.isdigit():
+            logger.error("未配置总层数")
+            return CustomAction.RunResult(success=False)
+
+        if int(zcs) > 1:
+            szc_text = f"1-{zcs}"
+        else:
+            szc_text = "1"
+
+        is_success = active_and_fill_v2(
+            context=context, box=argv.reco_detail.best_result.box, text=szc_text
+        )
         return CustomAction.RunResult(success=is_success)
 
 
