@@ -4,9 +4,10 @@
         "expected": "业务受理",
         "action": "Click",
         "next": [
-            "宗地首次调查",
-            "[Jumpback]从业务受理进入常办业务"
-        ]
+            "宗地首次调查"
+        ],
+        "timeout": 10000,
+        "on_error": "[Jumpback]从业务受理进入常办业务"
     },
     "宗地首次调查": {
         "recognition": "OCR",
