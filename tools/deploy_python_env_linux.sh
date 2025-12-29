@@ -24,7 +24,15 @@ function show_help {
 CLEAN=false
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        -r|--req) REQ_FILE="$2"; shift ;;
+        -r|--req)
+            if [[ -z "$2" ]]; then
+                echo "Error: -r|--req requires a FILE argument."
+                show_help
+                exit 1
+            fi
+            REQ_FILE="$2"
+            shift
+            ;;
         -c|--clean) CLEAN=true ;;
         -h|--help) show_help; exit 0 ;;
         *) echo "Unknown parameter: $1"; show_help; exit 1 ;;
