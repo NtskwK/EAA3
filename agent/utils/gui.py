@@ -52,11 +52,11 @@ def select_directory(title: str) -> Path | None:
 def dialog_yes_or_no(title: str, message: str) -> bool:
     root = tk.Tk()
     root.withdraw()  # 隐藏主窗口，只显示对话框
-
-    # 弹出确认对话框
-    result = messagebox.askyesno(title=title, message=message)  # 对话框标题  # 提示内容
-
-    return result
+    try:
+        # 弹出确认对话框
+        return messagebox.askyesno(title=title, message=message)  # 对话框标题  # 提示内容
+    finally:
+        root.destroy()
 
 
 if __name__ == "__main__":
