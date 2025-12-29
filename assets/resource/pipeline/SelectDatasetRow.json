@@ -26,7 +26,8 @@
             "west": "",
             "south": ""
         },
-        "focus": "加载数据"
+        "focus": "加载数据",
+        "next": "confirm_data"
     },
     "confirm_data": {
         "action": "Custom",
