@@ -1,4 +1,16 @@
 {
+    "从业务受理进入常办业务": {
+        "recognition": "OCR",
+        "expected": "业务受理",
+        "action": "Click",
+        "next": "常办业务"
+    },
+    "常办业务": {
+        "recognition": "OCR",
+        "expected": "常办业务",
+        "action": "Click",
+        "post_delay": 5000
+    },
     "受理": {
         "recognition": "OCR",
         "expected": "受理",

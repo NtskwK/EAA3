@@ -3,13 +3,10 @@
         "recognition": "OCR",
         "expected": "业务受理",
         "action": "Click",
-        "next": "常办业务"
-    },
-    "常办业务": {
-        "recognition": "OCR",
-        "expected": "常办业务",
-        "action": "Click",
-        "next": "宗地首次调查"
+        "next": [
+            "宗地首次调查",
+            "[Jumpback]从业务受理进入常办业务"
+        ]
     },
     "宗地首次调查": {
         "recognition": "OCR",
