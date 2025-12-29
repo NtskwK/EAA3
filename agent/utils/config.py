@@ -18,8 +18,8 @@ import json
 from .pathbase import project_root
 
 
-class Config:
-    config_file = Path(project_root) / "config" / "config.json"
+class EaaConfig:
+    config_file = Path(project_root) / "config" / "maa_eaa_config.json"
 
     def __init__(self):
         # default values
@@ -44,12 +44,15 @@ class Config:
         with open(self.config_file, "w", encoding="utf-8") as f:
             json.dump(self.detail, f, ensure_ascii=False, indent=4)
 
+    def __str__(self):
+        return json.dumps(self.detail, ensure_ascii=False, indent=4)
 
-config: Config | None = None
+
+eaa_config: EaaConfig | None = None
 
 
-def get_config() -> Config:
-    global config
-    if config is None:
-        config = Config()
-    return config
+def get_config() -> EaaConfig:
+    global eaa_config
+    if eaa_config is None:
+        eaa_config = EaaConfig()
+    return eaa_config

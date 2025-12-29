@@ -24,7 +24,7 @@
             "suffix": "实测幢首次调查项目"
         },
         "next": [
-            "[Jumpback]受理",
+            "[JumpBack]受理",
             "点击自然幢实测"
         ],
         "focus": "填写项目名称"
@@ -35,7 +35,7 @@
         "action": "Click",
         "focus": "点击自然幢实测",
         "next": [
-            "[Jumpback]上传宗地图流程",
+            "[JumpBack]上传宗地图流程",
             "点击编辑单元"
         ]
     },

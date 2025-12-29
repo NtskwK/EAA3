@@ -80,7 +80,7 @@ jobs:
         with:
           repository: SweetSmellFox/MFAAvalonia
           fileName: "MFAAvalonia-*-win-x64*"
-          tag: "v2.2.2"
+          tag: "v2.2.7"
           out-file-path: "MFA"
           extract: true
 
