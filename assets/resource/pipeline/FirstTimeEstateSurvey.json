@@ -6,14 +6,16 @@
         "next": [
             "宗地首次调查"
         ],
-        "timeout": 10000,
-        "on_error": "[Jumpback]从业务受理进入常办业务"
+        "timeout": 5000,
+        "on_error": "[Jumpback]从业务受理进入常办业务",
+        "focus": "进入业务受理模块"
     },
     "宗地首次调查": {
         "recognition": "OCR",
         "expected": "宗地首次调查",
         "action": "Click",
-        "next": "填写宗地首次调查项目名称"
+        "next": "填写宗地首次调查项目名称",
+        "focus": "点击宗地首次调查"
     },
     "填写宗地首次调查项目名称": {
         "recognition": "OCR",
@@ -26,7 +28,8 @@
         "next": [
             "[Jumpback]受理",
             "宗地图形"
-        ]
+        ],
+        "focus": "填写项目名称"
     },
     "宗地图形": {
         "recognition": "OCR",
@@ -35,7 +38,8 @@
         "next": [
             "[Jumpback]上传宗地图流程",
             "编辑属性"
-        ]
+        ],
+        "focus": "点击宗地图形"
     },
     "编辑属性": {
         "recognition": "OCR",
@@ -43,33 +47,38 @@
         "action": "Click",
         "next": [
             "选择所有权类型"
-        ]
+        ],
+        "focus": "点击编辑属性"
     },
     "选择所有权类型": {
         "recognition": "OCR",
         "expected": "所有权类型",
         "action": "Custom",
         "custom_action": "click_right",
-        "next": "集体土地所有权"
+        "next": "集体土地所有权",
+        "focus": "选择所有权类型"
     },
     "集体土地所有权": {
         "recognition": "OCR",
         "expected": "集体土地所有权",
         "action": "Click",
-        "next": "选择宗地特征码"
+        "next": "选择宗地特征码",
+        "focus": "点击集体土地所有权"
     },
     "选择宗地特征码": {
         "recognition": "OCR",
         "expected": "宗地特征码",
         "action": "Custom",
         "custom_action": "click_right",
-        "next": "宅基地使用权宗地"
+        "next": "宅基地使用权宗地",
+        "focus": "选择宗地特征码"
     },
     "宅基地使用权宗地": {
         "recognition": "OCR",
         "expected": "宅基地使用权宗地",
         "action": "Click",
-        "next": "填写宗地代码"
+        "next": "填写宗地代码",
+        "focus": "点击宅基地使用权宗地"
     },
     "填写宗地代码": {
         "recognition": "OCR",
@@ -79,7 +88,8 @@
         "custom_action_param": {
             "key": "estate_code"
         },
-        "next": "填写坐落"
+        "next": "填写坐落",
+        "focus": "填写宗地代码"
     },
     "填写坐落": {
         "recognition": "OCR",
@@ -89,12 +99,14 @@
         "custom_action_param": {
             "key": "address"
         },
-        "next": "点击生成"
+        "next": "点击生成",
+        "focus": "填写坐落"
     },
     "点击生成": {
         "recognition": "OCR",
         "expected": "生成",
-        "action": "Click"
+        "action": "Click",
+        "focus": "点击生成"
     },
     "选择权利类型": {
         "recognition": "OCR",
@@ -102,20 +114,23 @@
         "action": "Custom",
         "custom_action": "click_right",
         "next": "点击宅基地使用权",
-        "post_delay": 1000
+        "post_delay": 1000,
+        "focus": "选择权利类型"
     },
     "点击宅基地使用权": {
         "recognition": "OCR",
         "expected": "宅基地使用权",
         "action": "Click",
-        "next": "选择权利性质"
+        "next": "选择权利性质",
+        "focus": "点击宅基地使用权"
     },
     "选择权利性质": {
         "recognition": "OCR",
         "expected": "权利性质",
         "action": "Custom",
         "custom_action": "click_right",
-        "next": "找到出让"
+        "next": "找到出让",
+        "focus": "选择权利性质"
     },
     "找到出让": {
         "recognition": "OCR",
@@ -125,20 +140,23 @@
         "next": [
             "[Jumpback]向下滑动",
             "点击批准拨用"
-        ]
+        ],
+        "focus": "找到出让"
     },
     "点击批准拨用": {
         "recognition": "OCR",
         "expected": "批准拨用",
         "action": "Click",
-        "next": "选择权利设定方式"
+        "next": "选择权利设定方式",
+        "focus": "点击批准拨用"
     },
     "选择权利设定方式": {
         "recognition": "OCR",
         "expected": "权利设定方式",
         "action": "Custom",
         "custom_action": "click_right",
-        "next": "点击地表"
+        "next": "点击地表",
+        "focus": "选择权利设定方式"
     },
     "点击地表": {
         "recognition": "OCR",
@@ -146,21 +164,24 @@
         "action": "Click",
         "next": [
             "选择是否为集体经营性用地"
-        ]
+        ],
+        "focus": "点击地表"
     },
     "选择是否为集体经营性用地": {
         "recognition": "OCR",
         "expected": "是否为集体经营性用地",
         "action": "Custom",
         "custom_action": "click_right",
-        "next": "选择是否为集体经营性用地_否"
+        "next": "选择是否为集体经营性用地_否",
+        "focus": "选择是否为集体经营性用地"
     },
     "选择是否为集体经营性用地_否": {
         "recognition": "OCR",
         "expected": "否",
         "index": 1,
         "action": "Click",
-        "next": "填写宗地东至"
+        "next": "填写宗地东至",
+        "focus": "选择否"
     },
     "填写宗地东至": {
         "recognition": "OCR",
@@ -170,7 +191,8 @@
         "custom_action_param": {
             "key": "east"
         },
-        "next": "填写宗地南至"
+        "next": "填写宗地南至",
+        "focus": "填写宗地东至"
     },
     "填写宗地南至": {
         "recognition": "OCR",
@@ -180,7 +202,8 @@
         "custom_action_param": {
             "key": "south"
         },
-        "next": "填写宗地西至"
+        "next": "填写宗地西至",
+        "focus": "填写宗地南至"
     },
     "填写宗地西至": {
         "recognition": "OCR",
@@ -190,7 +213,8 @@
         "custom_action_param": {
             "key": "west"
         },
-        "next": "填写宗地北至"
+        "next": "填写宗地北至",
+        "focus": "填写宗地西至"
     },
     "填写宗地北至": {
         "recognition": "OCR",
@@ -199,7 +223,8 @@
         "custom_action": "fill_right_from_config",
         "custom_action_param": {
             "key": "north"
-        }
+        },
+        "focus": "填写宗地北至"
     },
     "填写批准面积": {
         "recognition": "OCR",
@@ -208,7 +233,8 @@
         "custom_action": "fill_pz_zdmj",
         "next": [
             "填写宗地面积"
-        ]
+        ],
+        "focus": "填写批准面积"
     },
     "填写宗地面积": {
         "recognition": "OCR",
@@ -220,7 +246,8 @@
         },
         "next": [
             "填写建筑占地面积"
-        ]
+        ],
+        "focus": "填写宗地面积"
     },
     "填写建筑占地面积": {
         "recognition": "OCR",
@@ -233,7 +260,8 @@
         },
         "next": [
             "填写建筑面积"
-        ]
+        ],
+        "focus": "填写建筑占地面积"
     },
     "填写建筑面积": {
         "recognition": "OCR",
@@ -246,14 +274,16 @@
         },
         "next": [
             "选择是否具备发证条件"
-        ]
+        ],
+        "focus": "填写建筑面积"
     },
     "选择是否具备发证条件": {
         "recognition": "OCR",
         "expected": "是否具备发证条件",
         "action": "Custom",
         "custom_action": "click_right",
-        "next": "点击是"
+        "next": "点击是",
+        "focus": "选择是否具备发证条件"
     },
     "点击是": {
         "recognition": "OCR",
@@ -261,7 +291,8 @@
         "index": 1,
         "next": [
             "点击新增"
-        ]
+        ],
+        "focus": "点击是"
     },
     "点击新增": {
         "recognition": "OCR",
@@ -269,21 +300,24 @@
         "action": "Click",
         "next": [
             "在土地用途点击请选择"
-        ]
+        ],
+        "focus": "点击新增"
     },
     "在土地用途点击请选择": {
         "expected": "请选择",
         "action": "Click",
         "next": [
             "输入0703"
-        ]
+        ],
+        "focus": "点击请选择"
     },
     "输入0703": {
         "action": "InputText",
         "input_text": "0703",
         "next": [
             "点击农村宅基地"
-        ]
+        ],
+        "focus": "输入0703"
     },
     "点击农村宅基地": {
         "recognition": "OCR",
@@ -291,7 +325,8 @@
         "action": "Click",
         "next": [
             "保存土地用途"
-        ]
+        ],
+        "focus": "点击农村宅基地"
     },
     "保存土地用途": {
         "recognition": "OCR",
@@ -300,7 +335,8 @@
         "order_by": "Vertical",
         "next": [
             "保存基本信息"
-        ]
+        ],
+        "focus": "保存土地用途"
     },
     "保存基本信息": {
         "recognition": "OCR",
@@ -309,7 +345,8 @@
         "order_by": "Vertical",
         "next": [
             "点击宗地图附件"
-        ]
+        ],
+        "focus": "保存基本信息"
     },
     "点击宗地图附件": {
         "recognition": "OCR",
@@ -317,7 +354,8 @@
         "action": "Click",
         "next": [
             "点击上传"
-        ]
+        ],
+        "focus": "点击宗地图附件"
     },
     "点击上传": {
         "recognition": "OCR",
@@ -325,13 +363,15 @@
         "action": "Click",
         "next": [
             "等待预览"
-        ]
+        ],
+        "focus": "点击上传"
     },
     "等待预览": {
         "recognition": "OCR",
         "expected": "预览",
         "action": "DoNothing",
-        "next": "点击权利人信息"
+        "next": "点击权利人信息",
+        "focus": "等待预览"
     },
     "点击权利人信息": {
         "recognition": "OCR",
@@ -339,7 +379,8 @@
         "action": "Click",
         "next": [
             "填写权利人信息"
-        ]
+        ],
+        "focus": "点击权利人信息"
     },
     "填写权利人信息": {
         "recognition": "OCR",
@@ -351,7 +392,8 @@
         },
         "next": [
             "选择权利人类型"
-        ]
+        ],
+        "focus": "填写权利人信息"
     },
     "选择权利人类型": {
         "recognition": "OCR",
@@ -362,7 +404,8 @@
             "scroll": 0,
             "target": "个人"
         },
-        "next": "选择证件种类"
+        "next": "选择证件种类",
+        "focus": "选择权利人类型"
     },
     "选择证件种类": {
         "recognition": "OCR",
@@ -373,7 +416,8 @@
             "scroll": 0,
             "target": "身份证"
         },
-        "next": "选择共有方式"
+        "next": "选择共有方式",
+        "focus": "选择证件种类"
     },
     "选择共有方式": {
         "recognition": "OCR",
@@ -385,6 +429,7 @@
             "target": "共同共有"
         },
         "next": "填写证件号码",
+        "focus": "选择共有方式"
     },
     "填写证件号码": {
         "recognition": "OCR",
@@ -396,7 +441,8 @@
         },
         "next": [
             "选择是否微小企业"
-        ]
+        ],
+        "focus": "填写证件号码"
     },
     "选择是否微小企业": {
         "recognition": "OCR",
@@ -407,7 +453,8 @@
             "scroll": 0,
             "target": "否"
         },
-        "next": "填写地址"
+        "next": "填写地址",
+        "focus": "选择是否微小企业"
     },
     "填写地址": {
         "recognition": "OCR",
@@ -417,7 +464,8 @@
         "custom_action_param": {
             "key": "address"
         },
-        "next": "保存权利人信息"
+        "next": "保存权利人信息",
+        "focus": "填写地址"
     },
     "保存权利人信息": {
         "recognition": "OCR",
@@ -425,7 +473,8 @@
         "action": "Click",
         "next": [
             "点击基本信息2"
-        ]
+        ],
+        "focus": "保存权利人信息"
     },
     "点击基本信息2": {
         "recognition": "OCR",
@@ -433,7 +482,8 @@
         "action": "Click",
         "next": [
             "关闭基本信息"
-        ]
+        ],
+        "focus": "点击基本信息"
     },
     "关闭基本信息": {
         "recognition": "OCR",
@@ -442,6 +492,7 @@
         "post_delay": 3000,
         "next": [
             "转出"
-        ]
+        ],
+        "focus": "关闭基本信息"
     }
 }

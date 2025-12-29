@@ -3,19 +3,22 @@
         "recognition": "OCR",
         "expected": "业务受理",
         "action": "Click",
-        "next": "常办业务"
+        "next": "常办业务",
+        "focus": "点击业务受理"
     },
     "常办业务": {
         "recognition": "OCR",
         "expected": "常办业务",
         "action": "Click",
-        "post_delay": 5000
+        "post_delay": 5000,
+        "focus": "点击常办业务"
     },
     "受理": {
         "recognition": "OCR",
         "expected": "受理",
         "action": "Click",
-        "max_hit": 1
+        "max_hit": 1,
+        "focus": "点击受理"
     },
     "上传宗地图流程": {
         "recognition": "OCR",
@@ -30,12 +33,13 @@
         "expected": "上图",
         "action": "Click",
         "timeout": 120000,
-        "next": "等待上图完成"
+        "next": "等待上图完成",
+        "focus": "点击上图"
     },
     "等待上图完成": {
         "recognition": "OCR",
         "expected": "编辑属性",
-        "focus": "宗地图上传完成"
+        "focus": "等待宗地图上传完成"
     },
     "输入文字": {
         "action": {
@@ -43,35 +47,40 @@
             "param": {
                 "input_text": ""
             }
-        }
+        },
+        "focus": "输入文字"
     },
     "向下滑动": {
         "action": "Scroll",
         "dy": -480,
-        "focus": "滚轮向下滑四下"
+        "focus": "向下滑动"
     },
     "debug": {
-        "next": "fill_debug"
+        "next": "fill_debug",
+        "focus": "进入调试模式"
     },
     "fill_debug": {
         "recognition": "OCR",
         "expected": "书籍",
         "index": 1,
         "action": "Custom",
-        "custom_action": "debug"
+        "custom_action": "debug",
+        "focus": "填充调试数据"
     },
     "转出": {
         "recognition": "OCR",
         "expected": "转出",
         "action": "Click",
         "max_hit": 1,
-        "next": "点击按名称模糊查询"
+        "next": "点击按名称模糊查询",
+        "focus": "点击转出"
     },
     "点击按名称模糊查询": {
         "recognition": "OCR",
         "expected": "按名称模糊查询",
         "action": "Click",
-        "next": "输入用户名"
+        "next": "输入用户名",
+        "focus": "点击按名称模糊查询"
     },
     "输入用户名": {
         "recognition": "OCR",
@@ -83,42 +92,49 @@
         },
         "order_by": "Vertical",
         "index": -1,
-        "next": "选择用户名"
+        "next": "选择用户名",
+        "focus": "输入用户名"
     },
     "选择用户名": {
         "recognition": "OCR",
         "expected": "",
         "action": "Click",
-        "next": "点击确认"
+        "next": "点击确认",
+        "focus": "选择用户名"
     },
     "点击确认": {
         "recognition": "OCR",
         "expected": "确认",
         "action": "Click",
         "post_delay": 3000,
-        "next": "点击代办箱"
+        "next": "点击代办箱",
+        "focus": "点击确认"
     },
     "点击代办箱": {
         "recognition": "OCR",
         "expected": "代办箱",
         "action": "Click",
-        "next": "点击宗地首次调查"
+        "next": "点击宗地首次调查",
+        "focus": "点击代办箱"
     },
     "点击宗地首次调查": {
         "recognition": "OCR",
         "expected": "宗地首次调查",
         "action": "Click",
-        "next": "点击转出2"
+        "next": "点击转出2",
+        "focus": "点击宗地首次调查"
     },
     "点击转出2": {
         "recognition": "OCR",
         "expected": "转出",
         "action": "Click",
-        "next": "点击确定"
+        "next": "点击确定",
+        "focus": "点击转出"
     },
     "点击确定": {
         "recognition": "OCR",
         "expected": "确定",
-        "action": "Click"
+        "action": "Click",
+        "focus": "点击确定"
     }
 }
