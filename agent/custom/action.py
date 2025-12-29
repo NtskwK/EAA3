@@ -1,8 +1,7 @@
 import os
 import json
-from pathlib import Path
 import random
-from typing import List, Literal, Optional, Tuple
+from typing import List, Literal
 
 from PIL import Image
 
@@ -20,7 +19,7 @@ from maa.pipeline import (
 )
 
 from utils.excel import get_values_from_excel
-from utils.gui import select_path
+from utils.gui import select_path, dialog_yes_or_no
 from utils.config import get_config
 from utils.logger import logger, log_dir
 from utils import get_format_timestamp, smaller
@@ -182,6 +181,38 @@ class LoadDataDetail(CustomAction):
             logger.info(f"已读取 {k}: {v}")
 
         config.set_value("current_data_row", row)
+
+        return CustomAction.RunResult(success=True)
+
+
+@AgentServer.custom_action("confirm_data")
+class ConfirmData(CustomAction):
+    def run(
+        self,
+        context: Context,
+        argv: CustomAction.RunArg,
+    ) -> CustomAction.RunResult:
+        username = json.loads(argv.custom_action_param).get("username", "")
+        if username == "":
+            logger.error("未提供用户名")
+            context.tasker.post_stop()
+            return CustomAction.RunResult(success=False)
+
+        estate_code = get_config().get_value("estateCode", "")
+        person_name = get_config().get_value("personName", "")
+
+        logger.info(f"当前用户：{username}")
+        logger.info(f"正在确认数据: {estate_code}, {person_name}")
+        result = dialog_yes_or_no(
+            "确认数据",
+            f"用户：{username}\n请确认以下数据是否是需要填写的数据：\n\n宗地代码: {estate_code}\n权利人姓名: {person_name}\n\n是否继续？",
+        )
+        if not result:
+            logger.info("用户手动停止")
+            context.tasker.post_stop()
+            return CustomAction.RunResult(success=False)
+        else:
+            logger.info("用户选择继续")
 
         return CustomAction.RunResult(success=True)
 

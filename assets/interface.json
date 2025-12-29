@@ -48,7 +48,8 @@
             "default_check": true,
             "option": [
                 "选择数据",
-                "读取数据"
+                "读取数据",
+                "账号信息"
             ]
         },
         {
@@ -182,6 +183,23 @@
                         "north": "{北至}",
                         "west": "{西至}",
                         "south": "{南至}"
+                    }
+                }
+            }
+        },
+        "账号信息": {
+            "type": "input",
+            "inputs": [
+                {
+                    "name": "用户名",
+                    "pipeline_type": "string",
+                    "description": "登陆账号的用户名"
+                }
+            ],
+            "pipeline_override": {
+                "confirm_data": {
+                    "custom_action_param": {
+                        "username": "{用户名}"
                     }
                 }
             }

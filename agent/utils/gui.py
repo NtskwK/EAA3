@@ -16,6 +16,7 @@
 from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import messagebox
 from typing import List
 
 
@@ -48,7 +49,23 @@ def select_directory(title: str) -> Path | None:
     return select_path(title, is_dir=True)
 
 
+def dialog_yes_or_no(title: str, message: str) -> bool:
+    root = tk.Tk()
+    root.withdraw()  # 隐藏主窗口，只显示对话框
+
+    # 弹出确认对话框
+    result = messagebox.askyesno(title=title, message=message)  # 对话框标题  # 提示内容
+
+    return result
+
+
 if __name__ == "__main__":
     # 简单测试
     print(f"Selected file: {select_path('请选择一个文件')}")
     print(f"Selected directory: {select_directory('请选择一个目录')}")
+    print(
+        f"User confirmed: {dialog_yes_or_no('确认操作', """
+您确定要执行此操作吗？
+你知道你正在在做什么吗？你知道你正在在做什么吗？你知道你正在在做什么吗？你知道你正在在做什么吗？你知道你正在在做什么吗？你知道你正在在做什么吗？你知道你正在在做什么吗？你知道你正在在做什么吗？你知道你正在在做什么吗？你知道你正在在做什么吗？你知道你正在在做什么吗？你知道你正在在做什么吗？你知道你正在在做什么吗？
+    """)}"
+    )
