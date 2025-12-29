@@ -18,6 +18,8 @@
             408
         ],
         "action": "Click",
+        "repeat": 2,
+        "repeat_delay": 1000,
         "next": "填写宗地首次调查项目名称",
         "focus": "点击宗地首次调查"
     },
@@ -35,6 +37,7 @@
         "custom_action_param": {
             "suffix": "宗地首次调查项目"
         },
+        "timeout": 30000,
         "next": [
             "[JumpBack]受理",
             "宗地图形"

@@ -7,7 +7,8 @@
             "table_name": "",
             "region": ""
         },
-        "focus": "选择数据源"
+        "focus": "选择数据源",
+        "next": "LoadData"
     },
     "LoadData": {
         "action": "Custom",
