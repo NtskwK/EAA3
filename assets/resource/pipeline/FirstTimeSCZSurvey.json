@@ -1,3 +1,244 @@
 {
-    "FirstTimeSCZSurvey": {}
+    "FirstTimeSCZSurvey": {
+        "recognition": "OCR",
+        "expected": "业务受理",
+        "action": "Click",
+        "next": [
+            "实测幢首次调查"
+        ],
+        "timeout": 5000,
+        "on_error": "[Jumpback]从业务受理进入常办业务",
+        "focus": "进入业务受理模块"
+    },
+    "实测幢首次调查": {
+        "recognition": "OCR",
+        "expected": "实测幢首次调查",
+        "action": "Click",
+        "next": "填写实测幢首次调查项目名称",
+        "focus": "点击实测幢首次调查"
+    },
+    "填写实测幢首次调查项目名称": {
+        "recognition": "OCR",
+        "expected": "项目名称",
+        "action": "Custom",
+        "custom_action": "fill_program_name",
+        "custom_action_param": {
+            "suffix": "实测幢首次调查项目"
+        },
+        "next": [
+            "[Jumpback]受理",
+            "点击自然幢实测"
+        ],
+        "focus": "填写项目名称"
+    },
+    "点击自然幢实测": {
+        "recognition": "OCR",
+        "expected": "自然幢实测",
+        "action": "Click",
+        "focus": "点击自然幢实测",
+        "next": [
+            "[Jumpback]上传宗地图流程",
+            "点击编辑单元"
+        ]
+    },
+    "点击编辑单元": {
+        "recognition": "OCR",
+        "expected": "编辑单元",
+        "action": "Click",
+        "next": "编辑单元点击生成",
+        "focus": "点击编辑单元"
+    },
+    "编辑单元点击生成": {
+        "recognition": "OCR",
+        "expected": "生成",
+        "action": "Click",
+        "focus": "点击生成",
+        "next": "在规划用途选择住宅"
+    },
+    "在规划用途选择住宅": {
+        "recognition": "OCR",
+        "expected": "规划用途",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "住宅"
+        },
+        "focus": "在规划用途选择住宅",
+        "next": "在房屋结构选择混合结构"
+    },
+    "在房屋结构选择混合结构": {
+        "recognition": "OCR",
+        "expected": "房屋结构",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "混合结构"
+        },
+        "focus": "在房屋结构选择混合结构",
+        "next": "在建筑物基本用途选择住宅"
+    },
+    "在建筑物基本用途选择住宅": {
+        "recognition": "OCR",
+        "expected": "建筑物基本用途",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "住宅"
+        },
+        "focus": "在建筑物基本用途选择住宅",
+        "next": "填写竣工日期"
+    },
+    "填写竣工日期": {
+        "recognition": "OCR",
+        "expected": "竣工日期",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "jgrqjcsj"
+        },
+        "next": "编辑单元填写总层数"
+    },
+    "编辑单元填写总层数": {
+        "recognition": "OCR",
+        "expected": "总层数",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "zcs"
+        },
+    },
+    "填写实测建筑面积": {
+        "recognition": "OCR",
+        "expected": "实测建筑面积",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "jzmj"
+        },
+        "focus": "填写实测建筑面积",
+        "next": "编辑单元保存"
+    },
+    "编辑单元保存": {
+        "recognition": "OCR",
+        "expected": "保存",
+        "action": "Click",
+        "post_delay": 5000,
+        "focus": "编辑单元保存",
+        "next": "进入户信息"
+    },
+    "进入户信息": {
+        "recognition": "OCR",
+        "expected": "户",
+        "action": "Click",
+        "focus": "进入户信息",
+        "next": "点击户信息新增"
+    },
+    "点击户信息新增": {
+        "recognition": "OCR",
+        "expected": "新增",
+        "action": "Click",
+        "focus": "点击户信息新增",
+        "next": "点击户信息生成"
+    },
+    "点击户信息生成": {
+        "recognition": "OCR",
+        "expected": "生成",
+        "action": "Click",
+        "next": "房屋类型选择住宅2",
+        "focus": "点击户信息生成"
+    },
+    "房屋类型选择住宅2": {
+        "recognition": "OCR",
+        "expected": "房屋类型",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "住宅"
+        },
+        "focus": "房屋类型选择住宅2",
+        "next": "房屋结构选择混合结构2"
+    },
+    "房屋结构选择混合结构2": {
+        "recognition": "OCR",
+        "expected": "房屋结构",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "混合结构"
+        },
+        "focus": "房屋结构选择混合结构2",
+        "next": "规划用途选择住宅"
+    },
+    "规划用途选择住宅": {
+        "recognition": "OCR",
+        "expected": "规划用途",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "住宅"
+        },
+        "focus": "规划用途选择住宅",
+        "next": "房屋产别选择私有房产"
+    },
+    "房屋产别选择私有房产": {
+        "recognition": "OCR",
+        "expected": "房屋产别",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "私有房产"
+        },
+        "focus": "房屋产别选择私有房产",
+        "next": "房屋性质选择自建房"
+    },
+    "房屋性质选择自建房": {
+        "recognition": "OCR",
+        "expected": "房屋性质",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "自建房"
+        },
+        "focus": "房屋性质选择自建房"
+    },
+    "户信息填写总层数": {
+        "recognition": "OCR",
+        "expected": "总层数",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "zcs"
+        },
+        "focus": "户信息填写总层数",
+        "next": "户信息填写终止层"
+    },
+    "户信息填写终止层": {
+        "recognition": "OCR",
+        "expected": "终止层",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "zcs"
+        },
+        "focus": "户信息填写终止层",
+        "next": "户信息填写建筑面积"
+    },
+    "户信息填写建筑面积": {
+        "recognition": "OCR",
+        "expected": "建筑面积",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "jzmj"
+        },
+        "focus": "户信息填写建筑面积"
+    }
 }
