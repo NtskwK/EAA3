@@ -30,6 +30,10 @@
     "上传宗地图流程": {
         "recognition": "OCR",
         "expected": "空间检查",
+        "replace": [
+            "直",
+            "查"
+        ],
         "roi": [
             210,
             181,
@@ -37,6 +41,7 @@
             544
         ],
         "max_hit": 1,
+        "timeout": 30000,
         "action": "Click",
         "next": "上图",
         "focus": "关闭空间检查"
