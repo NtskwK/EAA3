@@ -44,6 +44,9 @@ class Config:
         with open(self.config_file, "w", encoding="utf-8") as f:
             json.dump(self.detail, f, ensure_ascii=False, indent=4)
 
+    def __str__(self):
+        return json.dumps(self.detail, ensure_ascii=False, indent=4)
+
 
 config: Config | None = None
 

@@ -36,7 +36,7 @@
             "suffix": "宗地首次调查项目"
         },
         "next": [
-            "[Jumpback]受理",
+            "[JumpBack]受理",
             "宗地图形"
         ],
         "focus": "填写项目名称"
@@ -52,7 +52,7 @@
         ],
         "action": "Click",
         "next": [
-            "[Jumpback]上传宗地图流程",
+            "[JumpBack]上传宗地图流程",
             "编辑属性"
         ],
         "focus": "点击宗地图形"
@@ -226,7 +226,7 @@
         "action": "Swipe",
         "only_hover": true,
         "next": [
-            "[Jumpback]向下滑动",
+            "[JumpBack]向下滑动",
             "点击批准拨用"
         ],
         "focus": "找到出让"
