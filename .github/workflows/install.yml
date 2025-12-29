@@ -103,7 +103,7 @@ jobs:
       - name: Setup Python
         shell: bash
         run: |
-          python3 tools/ci/setups_python.py ${{ matrix.os }} ${{ matrix.arch }}
+          python3 tools/ci/setup_python.py ${{ matrix.os }} ${{ matrix.arch }}
 
       - name: Install
         shell: bash
