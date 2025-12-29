@@ -18,12 +18,24 @@
         "recognition": "OCR",
         "expected": "受理",
         "action": "Click",
+        "roi": [
+            748,
+            142,
+            270,
+            571
+        ],
         "max_hit": 1,
         "focus": "点击受理"
     },
     "上传宗地图流程": {
         "recognition": "OCR",
         "expected": "空间检查",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
         "max_hit": 1,
         "action": "Click",
         "next": "上图",
@@ -32,6 +44,12 @@
     "上图": {
         "recognition": "OCR",
         "expected": "上图",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
         "action": "Click",
         "timeout": 120000,
         "next": "等待上图完成",
@@ -40,6 +58,12 @@
     "等待上图完成": {
         "recognition": "OCR",
         "expected": "编辑",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
         "focus": "等待宗地图上传完成"
     },
     "输入文字": {
@@ -71,6 +95,12 @@
     "转出": {
         "recognition": "OCR",
         "expected": "转出",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
         "action": "Click",
         "max_hit": 1,
         "next": "点击按名称模糊查询",
@@ -79,6 +109,12 @@
     "点击按名称模糊查询": {
         "recognition": "OCR",
         "expected": "按名称模糊查询",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
         "action": "Click",
         "next": "输入用户名",
         "focus": "点击按名称模糊查询"
@@ -86,6 +122,12 @@
     "输入用户名": {
         "recognition": "OCR",
         "expected": "按名称模糊查询",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
         "action": "Custom",
         "custom_action": "fill_right_from_config",
         "custom_action_param": {
@@ -99,6 +141,12 @@
     "选择用户名": {
         "recognition": "OCR",
         "expected": "",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
         "action": "Click",
         "next": "点击确认",
         "focus": "选择用户名"
@@ -106,6 +154,12 @@
     "点击确认": {
         "recognition": "OCR",
         "expected": "确认",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
         "action": "Click",
         "post_delay": 3000,
         "next": "点击代办箱",
@@ -114,6 +168,12 @@
     "点击代办箱": {
         "recognition": "OCR",
         "expected": "代办箱",
+        "roi": [
+            2,
+            171,
+            237,
+            425
+        ],
         "action": "Click",
         "next": "点击宗地首次调查",
         "focus": "点击代办箱"
@@ -121,6 +181,12 @@
     "点击宗地首次调查": {
         "recognition": "OCR",
         "expected": "宗地首次调查",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
         "action": "Click",
         "next": "点击转出2",
         "focus": "点击宗地首次调查"
@@ -129,6 +195,12 @@
         "recognition": "OCR",
         "expected": "转出",
         "action": "Click",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
         "next": "点击确定",
         "focus": "点击转出"
     },
@@ -136,6 +208,12 @@
         "recognition": "OCR",
         "expected": "确定",
         "action": "Click",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
         "focus": "点击确定"
     }
 }

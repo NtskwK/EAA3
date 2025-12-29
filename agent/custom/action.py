@@ -298,6 +298,7 @@ class FillProgramName(CustomAction):
 
         suffix = json.loads(argv.custom_action_param).get("suffix", "")
         program_name = f"{prefix}{suffix}"
+        logger.info(f"正在输入项目名称: {program_name}")
 
         is_success = (
             context.tasker.controller.post_input_text(text=program_name)
