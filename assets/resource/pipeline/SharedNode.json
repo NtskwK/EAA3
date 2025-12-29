@@ -38,7 +38,7 @@
     },
     "等待上图完成": {
         "recognition": "OCR",
-        "expected": "编辑属性",
+        "expected": "编辑",
         "focus": "等待宗地图上传完成"
     },
     "输入文字": {

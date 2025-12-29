@@ -99,10 +99,10 @@
         "custom_action_param": {
             "key": "address"
         },
-        "next": "点击生成",
+        "next": "基本信息点击生成",
         "focus": "填写坐落"
     },
-    "点击生成": {
+    "基本信息点击生成": {
         "recognition": "OCR",
         "expected": "生成",
         "action": "Click",
