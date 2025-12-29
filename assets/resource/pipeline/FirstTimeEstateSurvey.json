@@ -260,6 +260,192 @@
     "点击是": {
         "recognition": "OCR",
         "expected": "是",
-        "index": 1
+        "index": 1,
+        "next": [
+            "点击新增"
+        ]
+    },
+    "点击新增": {
+        "recognition": "OCR",
+        "expected": "新增",
+        "action": "Click",
+        "next": [
+            "在土地用途点击请选择"
+        ]
+    },
+    "在土地用途点击请选择": {
+        "expected": "请选择",
+        "action": "Click",
+        "next": [
+            "输入0703"
+        ]
+    },
+    "输入0703": {
+        "action": "InputText",
+        "input_text": "0703",
+        "next": [
+            "点击农村宅基地"
+        ]
+    },
+    "点击农村宅基地": {
+        "recognition": "OCR",
+        "expected": "农村宅基地",
+        "action": "Click",
+        "next": [
+            "保存土地用途"
+        ]
+    },
+    "保存土地用途": {
+        "recognition": "OCR",
+        "expected": "保存",
+        "action": "Click",
+        "order_by": "Vertical",
+        "next": [
+            "保存基本信息"
+        ]
+    },
+    "保存基本信息": {
+        "recognition": "OCR",
+        "expected": "保存",
+        "action": "Click",
+        "order_by": "Vertical",
+        "next": [
+            "点击宗地图附件"
+        ]
+    },
+    "点击宗地图附件": {
+        "recognition": "OCR",
+        "expected": "宗地图附件",
+        "action": "Click",
+        "next": [
+            "点击上传"
+        ]
+    },
+    "点击上传": {
+        "recognition": "OCR",
+        "expected": "上传",
+        "action": "Click",
+        "next": [
+            "等待预览"
+        ]
+    },
+    "等待预览": {
+        "recognition": "OCR",
+        "expected": "预览",
+        "action": "DoNothing",
+        "next": "点击权利人信息"
+    },
+    "点击权利人信息": {
+        "recognition": "OCR",
+        "expected": "权利人信息",
+        "action": "Click",
+        "next": [
+            "填写权利人信息"
+        ]
+    },
+    "填写权利人信息": {
+        "recognition": "OCR",
+        "expected": "权利人名称",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "personName"
+        },
+        "next": [
+            "选择权利人类型"
+        ]
+    },
+    "选择权利人类型": {
+        "recognition": "OCR",
+        "expected": "权利人类型",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "个人"
+        },
+        "next": "选择证件种类"
+    },
+    "选择证件种类": {
+        "recognition": "OCR",
+        "expected": "证件种类",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "身份证"
+        },
+        "next": "选择共有方式"
+    },
+    "选择共有方式": {
+        "recognition": "OCR",
+        "expected": "共有方式",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "共同共有"
+        },
+        "next": "填写证件号码",
+    },
+    "填写证件号码": {
+        "recognition": "OCR",
+        "expected": "证件号码",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "personId"
+        },
+        "next": [
+            "选择是否微小企业"
+        ]
+    },
+    "选择是否微小企业": {
+        "recognition": "OCR",
+        "expected": "是否微小企业",
+        "action": "Custom",
+        "custom_action": "select_right_box",
+        "custom_action_param": {
+            "scroll": 0,
+            "target": "否"
+        },
+        "next": "填写地址"
+    },
+    "填写地址": {
+        "recognition": "OCR",
+        "expected": "地址",
+        "action": "Custom",
+        "custom_action": "fill_right_from_config",
+        "custom_action_param": {
+            "key": "address"
+        },
+        "next": "保存权利人信息"
+    },
+    "保存权利人信息": {
+        "recognition": "OCR",
+        "expected": "保存",
+        "action": "Click",
+        "next": [
+            "点击基本信息2"
+        ]
+    },
+    "点击基本信息2": {
+        "recognition": "OCR",
+        "expected": "基本信息",
+        "action": "Click",
+        "next": [
+            "关闭基本信息"
+        ]
+    },
+    "关闭基本信息": {
+        "recognition": "OCR",
+        "expected": "关闭",
+        "action": "Click",
+        "next": "转出首次宗地调查"
+    },
+    "转出首次宗地调查": {
+        "recognition": "OCR",
+        "expected": "转出",
+        "action": "Click"
     }
 }

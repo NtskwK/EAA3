@@ -189,7 +189,7 @@ class LoadDataDetail(CustomAction):
 def calc_inputbox(input: Rect, position: Literal["right", "bottom"]) -> Rect:
     box = Rect(input.x, input.y, input.w, input.h)
     if position == "right":
-        box[0] = box[0] + int(2 * box[2])  # type: ignore
+        box[0] = box[0] + int(3 * box[2])  # type: ignore
     elif position == "bottom":
         box[1] = box[1] + int(1.5 * box[3])  # type: ignore
     else:
