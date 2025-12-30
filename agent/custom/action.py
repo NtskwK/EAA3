@@ -2,6 +2,7 @@ from datetime import datetime
 import os
 import json
 import random
+from time import sleep
 from typing import List, Literal
 
 from PIL import Image
@@ -135,23 +136,6 @@ class SelectDatasetRow(CustomAction):
             "请选择主工作簿文件",
             filters=[("Excel文件", "*.xlsx;*.xls"), ("所有文件", "*.*")],
         )
-        data_dir = select_path("请选择数据文件夹", is_dir=True)
-        for path in [
-            main_workbook_path,
-            data_dir,
-        ]:
-            if (path is None) or (not path.exists()):
-                logger.error(f"路径无效: {path}")
-                return CustomAction.RunResult(success=False)
-        path_details = [
-            ("main_workbook_path", str(main_workbook_path)),
-            ("data_dir", str(data_dir)),
-            ("estatePlan_dir", str(data_dir)),
-            ("familyMember_dir", str(data_dir)),
-        ]
-        for key, path in path_details:
-            config.set_value(key, path)
-            logger.info(f"已设置 {key} 为 {path}")
 
         param = json.loads(argv.custom_action_param)
         keys = ["row_number", "table_name", "region"]
@@ -440,6 +424,13 @@ class FillPzZdmj(CustomAction):
             logger.error("未提供识别结果，无法定位输入框")
             return CustomAction.RunResult(success=False)
 
+        is_success = click(
+            context, *calc_inputbox(argv.reco_detail.best_result.box, position="right")
+        )
+        if not is_success:
+            logger.error("点击输入框失败")
+            return CustomAction.RunResult(success=False)
+
         config = get_config()
         zdmj_max = config.get_value("zdmj_max", None)
         if zdmj_max is None:
@@ -488,56 +479,61 @@ class SelectRightBox(CustomAction):
             logger.error("未提供识别结果，无法定位输入框")
             return CustomAction.RunResult(success=False)
 
-        rect_box = argv.reco_detail.best_result.box
-        box = calc_inputbox(rect_box, position="right")
+        origin_rect_box = argv.reco_detail.best_result.box
+        box = calc_inputbox(origin_rect_box, position="right", ratio=2)
         click_position = (box[0] + box[2] // 2, box[1] + box[3] // 2)
         context.tasker.controller.post_click(*click_position).wait()
         logger.info("激活输入框")
+        sleep(1)
 
-        if scroll > 0:
-            is_success = context.tasker.post_action(
-                action_type=JActionType.Swipe,
-                action_param=JSwipe(
-                    only_hover=True, end=[box[0], box[1] + 50, box[2], box[3]]
-                ),
-            ).wait()
-            if not is_success.succeeded:
-                logger.error("滑动至选项框失败")
-                return CustomAction.RunResult(success=False)
+        # if scroll > 0:
+        #     is_success = context.tasker.post_action(
+        #         action_type=JActionType.Swipe,
+        #         action_param=JSwipe(
+        #             only_hover=True, end=[box[0], box[1] + 50, box[2], box[3]]
+        #         ),
+        #     ).wait()
+        #     if not is_success.succeeded:
+        #         logger.error("滑动至选项框失败")
+        #         return CustomAction.RunResult(success=False)
 
-            for i in range(scroll):
-                logger.info(f"滚动第{i+1}次")
-                is_success = context.tasker.controller.post_scroll(0, -120).wait()
-                if not is_success.succeeded:
-                    logger.error("滚动列表失败")
-                    return CustomAction.RunResult(success=False)
+        #     for i in range(scroll):
+        #         logger.info(f"滚动第{i+1}次")
+        #         is_success = context.tasker.controller.post_scroll(0, -120).wait()
+        #         if not is_success.succeeded:
+        #             logger.error("滚动列表失败")
+        #             return CustomAction.RunResult(success=False)
 
+        is_success = context.tasker.controller.post_input_text(text=target).wait()
+        if not is_success.succeeded:
+            logger.error("输入目标选项失败")
+            return CustomAction.RunResult(success=False)
+
+        sleep(1)
+
+        logger.info(f"正在识别目标选项: {target}")
         context.tasker.controller.post_screencap().wait()
-        img = context.tasker.controller.cached_image
-        job = context.tasker.post_recognition(
-            reco_type=JRecognitionType.OCR,
-            reco_param=JOCR(expected=target),
-            image=img,
-        ).wait()
-        detail = context.tasker.get_recognition_detail(job.job_id)
-        if not detail or not detail.hit:
-            logger.error("未识别到目标选项")
+
+        new_roi = [
+            origin_rect_box[0] + origin_rect_box[2],
+            origin_rect_box[1] - 4 * origin_rect_box[3],
+            origin_rect_box[2] * 3,
+            origin_rect_box[3] * 10,
+        ]
+
+        logger.debug(f"新的识别区域: {new_roi}")
+
+        reco_detail = context.run_recognition(
+            "OCR_find",
+            context.tasker.controller.cached_image,
+            {"OCR_find": {"roi": new_roi, "expected": target, "index": 1}},
+        )
+
+        if not reco_detail or not reco_detail.hit or not reco_detail.best_result:
+            logger.error("未识别到有效选项")
             return CustomAction.RunResult(success=False)
 
-        # 计算label的右边界
-        rect_right_edge = rect_box[0] + rect_box[2]
-        results: List[RecognitionResult] = []
-        for result in detail.filtered_results:
-            # 只要位于label右侧的选项
-            if result.box[0] > rect_right_edge:
-                results.append(result)
-
-        if not results:
-            logger.error("未找到位于输入框右侧的选项")
-            return CustomAction.RunResult(success=False)
-
-        best_result = results[0]
-        is_success = click(context, *(best_result.box))
+        is_success = click(context, *(reco_detail.best_result.box))
 
         return CustomAction.RunResult(success=is_success)
 

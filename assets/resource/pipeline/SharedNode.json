@@ -11,6 +11,7 @@
         "recognition": "OCR",
         "expected": "常办业务",
         "action": "Click",
+        "max_hit": 1,
         "post_delay": 5000,
         "focus": "点击常办业务"
     },
@@ -35,8 +36,14 @@
         "recognition": "OCR",
         "expected": "空间检查",
         "replace": [
-            "直",
-            "查"
+            [
+                "直",
+                "查"
+            ],
+            [
+                "古",
+                "查"
+            ]
         ],
         "roi": [
             210,
@@ -60,7 +67,7 @@
             544
         ],
         "action": "Click",
-        "timeout": 120000,
+        "timeout": 300000,
         "next": "等待上图完成",
         "focus": "点击上图"
     },
@@ -87,8 +94,7 @@
     "向下滑动": {
         "action": "Scroll",
         "dy": -120,
-        "focus": "向下滑动",
-        "max_hit": 1
+        "focus": "向下滑动"
     },
     "debug": {
         "next": "fill_debug",
@@ -106,10 +112,10 @@
         "recognition": "OCR",
         "expected": "转出",
         "roi": [
-            210,
-            181,
-            812,
-            544
+            847,
+            142,
+            424,
+            201
         ],
         "action": "Click",
         "max_hit": 1,
