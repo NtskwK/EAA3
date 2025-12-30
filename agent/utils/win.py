@@ -17,7 +17,7 @@ import win32gui
 from .logger import logger
 
 
-def resize_window_by_title(title_keyword, width=1200, height=900):
+def resize_window_by_title(title_keyword, width=1600, height=900):
     hwnd_target = None
 
     def callback(hwnd, extra):
