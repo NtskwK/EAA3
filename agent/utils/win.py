@@ -14,7 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import win32gui
 
-from logger import logger
+from .logger import logger
 
 
 def resize_window_by_title(title_keyword, width=1200, height=900):
