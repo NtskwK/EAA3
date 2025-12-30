@@ -112,10 +112,10 @@
         "recognition": "OCR",
         "expected": "转出",
         "roi": [
-            210,
-            181,
-            812,
-            544
+            847,
+            142,
+            424,
+            201
         ],
         "action": "Click",
         "max_hit": 1,

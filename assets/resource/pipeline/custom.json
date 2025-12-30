@@ -1,0 +1,12 @@
+{
+    "OCR_find": {
+        "recognition": "OCR",
+        "expected": [],
+        "roi": [
+            0,
+            0,
+            0,
+            0
+        ]
+    }
+}
