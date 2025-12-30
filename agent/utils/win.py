@@ -14,6 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import win32gui
 
+from logger import logger
+
 
 def resize_window_by_title(title_keyword, width=1200, height=900):
     hwnd_target = None
@@ -30,8 +32,8 @@ def resize_window_by_title(title_keyword, width=1200, height=900):
     if hwnd_target:
         # 调整窗口位置（0,0 为左上角）和大小，立即重绘
         win32gui.MoveWindow(hwnd_target, 0, 0, width, height, True)
-        print(f"窗口已设为 {width}×{height}")
+        logger.info(f"窗口已设为 {width}×{height}")
         return True
     else:
-        print("未找到目标窗口")
+        logger.error("未找到目标窗口")
         return False

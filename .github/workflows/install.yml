@@ -65,7 +65,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        os: [win,linux]
+        os: [win]
         arch: [x86_64]
       fail-fast: false
 
@@ -73,6 +73,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12' 
 
       - name: Download MFAAvalonia
         id: download_mfa
