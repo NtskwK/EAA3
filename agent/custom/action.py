@@ -440,6 +440,10 @@ class FillPzZdmj(CustomAction):
             logger.error("未提供识别结果，无法定位输入框")
             return CustomAction.RunResult(success=False)
 
+        is_success = click(
+            context, *calc_inputbox(argv.reco_detail.best_result.box, position="right")
+        )
+
         config = get_config()
         zdmj_max = config.get_value("zdmj_max", None)
         if zdmj_max is None:
@@ -489,7 +493,7 @@ class SelectRightBox(CustomAction):
             return CustomAction.RunResult(success=False)
 
         rect_box = argv.reco_detail.best_result.box
-        box = calc_inputbox(rect_box, position="right")
+        box = calc_inputbox(rect_box, position="right", ratio=2)
         click_position = (box[0] + box[2] // 2, box[1] + box[3] // 2)
         context.tasker.controller.post_click(*click_position).wait()
         logger.info("激活输入框")

@@ -5,7 +5,9 @@
         "action": "Click",
         "post_delay": 3000,
         "next": [
-            "宗地首次调查"
+            "[JumpBack]常办业务",
+            "宗地首次调查",
+            "FirstTimeEstateSurvey"
         ],
         "focus": "进入业务受理模块",
         "timeout": 40000
@@ -155,10 +157,10 @@
         "recognition": "OCR",
         "expected": "宗地代码",
         "roi": [
-            210,
-            181,
-            812,
-            544
+            184,
+            133,
+            935,
+            536
         ],
         "action": "Custom",
         "custom_action": "fill_right_from_config",
@@ -349,7 +351,7 @@
     },
     "填写宗地东至": {
         "recognition": "OCR",
-        "expected": "宗地东至",
+        "expected": "东至",
         "roi": [
             210,
             181,
@@ -367,7 +369,7 @@
     },
     "填写宗地南至": {
         "recognition": "OCR",
-        "expected": "宗地南至",
+        "expected": "南至",
         "roi": [
             210,
             181,
@@ -385,7 +387,7 @@
     },
     "填写宗地西至": {
         "recognition": "OCR",
-        "expected": "宗地西至",
+        "expected": "西至",
         "roi": [
             210,
             181,
@@ -403,7 +405,7 @@
     },
     "填写宗地北至": {
         "recognition": "OCR",
-        "expected": "宗地北至",
+        "expected": "北至",
         "roi": [
             210,
             181,
@@ -423,7 +425,7 @@
     },
     "填写批准面积": {
         "recognition": "OCR",
-        "expected": "批准面积",
+        "expected": "准面积",
         "roi": [
             210,
             181,
@@ -433,30 +435,10 @@
         "action": "Custom",
         "custom_action": "fill_pz_zdmj",
         "next": [
-            "填写宗地面积"
-        ],
-        "focus": "填写批准面积",
-        "post_delay": 3000
-    },
-    "填写宗地面积": {
-        "recognition": "OCR",
-        "expected": "宗地面积",
-        "roi": [
-            210,
-            181,
-            812,
-            544
-        ],
-        "action": "Custom",
-        "custom_action": "fill_right_from_config",
-        "custom_action_param": {
-            "key": "zdmj"
-        },
-        "next": [
             "填写建筑占地面积",
             "[JumpBack]向下滑动"
         ],
-        "focus": "填写宗地面积",
+        "focus": "填写批准面积",
         "post_delay": 3000
     },
     "填写建筑占地面积": {
@@ -495,37 +477,50 @@
             "key": "jzmj"
         },
         "next": [
-            "选择是否具备发证条件",
+            "找到是否具备登记发证条件",
             "[JumpBack]向下滑动"
         ],
         "focus": "填写建筑面积",
         "post_delay": 3000
     },
-    "选择是否具备发证条件": {
+    "找到是否具备登记发证条件": {
         "recognition": "OCR",
-        "expected": "是否具备发证条件",
+        "expected": "发证条件",
         "roi": [
             210,
             181,
             812,
             544
         ],
-        "action": "Custom",
-        "custom_action": "click_right",
+        "next": "激活选择是否具备登记发证条件",
+        "focus": "找到是否具备登记发证条件"
+    },
+    "激活选择是否具备登记发证条件": {
+        "recognition": "OCR",
+        "expected": "请选择",
+        "roi": [
+            210,
+            181,
+            812,
+            544
+        ],
+        "action": "Click",
         "next": "点击是",
-        "focus": "选择是否具备发证条件",
+        "focus": "激活选择是否具备登记发证条件",
         "post_delay": 3000
     },
     "点击是": {
         "recognition": "OCR",
         "expected": "是",
-        "index": 1,
         "roi": [
             210,
             181,
             812,
             544
         ],
+        "action": "Click",
+        "order_by": "Horizontal",
+        "index": 1,
         "next": [
             "点击新增"
         ],
@@ -543,12 +538,14 @@
         ],
         "action": "Click",
         "next": [
-            "在土地用途点击请选择"
+            "在土地用途点击请选择",
+            "点击新增"
         ],
         "focus": "点击新增",
         "post_delay": 3000
     },
     "在土地用途点击请选择": {
+        "recognition": "OCR",
         "expected": "请选择",
         "roi": [
             210,
@@ -656,7 +653,10 @@
     },
     "等待预览": {
         "recognition": "OCR",
-        "expected": "预览",
+        "expected": [
+            "预",
+            "览"
+        ],
         "roi": [
             210,
             181,

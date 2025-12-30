@@ -3,9 +3,9 @@
         "action": "Custom",
         "custom_action": "select_dataset_row",
         "custom_action_param": {
-            "row_number": "",
-            "table_name": "",
-            "region": ""
+            "row_number": "2",
+            "table_name": "Sheet1",
+            "region": "Sheet1"
         },
         "focus": "选择数据源",
         "next": "LoadData"
@@ -14,18 +14,18 @@
         "action": "Custom",
         "custom_action": "load_data_detail",
         "custom_action_param": {
-            "personId": "",
-            "personName": "",
-            "address": "",
-            "zdmj": "",
-            "jzmj": "",
-            "zcs": "",
-            "jcsj": "",
-            "estateCode": "",
-            "east": "",
-            "north": "",
-            "west": "",
-            "south": ""
+            "personName": "A",
+            "personId": "D",
+            "address": "G",
+            "zdmj": "R",
+            "jzmj": "N",
+            "zcs": "O",
+            "jcsj": "P",
+            "estateCode": "Q",
+            "east": "J",
+            "north": "K",
+            "west": "L",
+            "south": "M"
         },
         "focus": "加载数据",
         "next": "confirm_data"
@@ -34,7 +34,7 @@
         "action": "Custom",
         "custom_action": "confirm_data",
         "custom_action_param": {
-            "username": ""
+            "username": "赵路宇"
         },
         "focus": "确认数据"
     }
