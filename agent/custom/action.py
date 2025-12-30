@@ -19,6 +19,7 @@ from maa.pipeline import (
     JRecognitionType,
 )
 
+from utils.win import resize_window_by_title
 from utils.excel import get_values_from_excel
 from utils.gui import select_path, dialog_yes_or_no
 from utils.config import get_config
@@ -134,23 +135,19 @@ class SelectDatasetRow(CustomAction):
             "请选择主工作簿文件",
             filters=[("Excel文件", "*.xlsx;*.xls"), ("所有文件", "*.*")],
         )
-        housePlan_dir = select_path("请选择户型图文件夹", is_dir=True)
-        estatePlan_dir = select_path("请选择宗地图文件夹", is_dir=True)
-        familyMember_dir = select_path("请选择家庭成员信息文件夹", is_dir=True)
+        data_dir = select_path("请选择数据文件夹", is_dir=True)
         for path in [
             main_workbook_path,
-            housePlan_dir,
-            estatePlan_dir,
-            familyMember_dir,
+            data_dir,
         ]:
             if (path is None) or (not path.exists()):
                 logger.error(f"路径无效: {path}")
                 return CustomAction.RunResult(success=False)
         path_details = [
             ("main_workbook_path", str(main_workbook_path)),
-            ("housePlan_dir", str(housePlan_dir)),
-            ("estatePlan_dir", str(estatePlan_dir)),
-            ("familyMember_dir", str(familyMember_dir)),
+            ("data_dir", str(data_dir)),
+            ("estatePlan_dir", str(data_dir)),
+            ("familyMember_dir", str(data_dir)),
         ]
         for key, path in path_details:
             config.set_value(key, path)
@@ -200,12 +197,22 @@ class LoadDataDetail(CustomAction):
             logger.info(f"已加载 {key}: {v}")
             column_names.append(v)
 
-        data_array = get_values_from_excel(
-            str(config.get_value("main_workbook_path", "")),
-            table_name,
-            row_number,
-            column_names,
-        )
+        try:
+            data_array = get_values_from_excel(
+                str(config.get_value("main_workbook_path", "")),
+                table_name,
+                row_number,
+                column_names,
+            )
+        except KeyError as e:
+            logger.error(f"工作簿中未找到工作表: {table_name} - {e}")
+            context.tasker.post_stop()
+            return CustomAction.RunResult(success=False)
+        except Exception as e:
+            logger.error("未知错误: " + str(e))
+            context.tasker.post_stop()
+            return CustomAction.RunResult(success=False)
+
         for k, v in zip(item_keys, data_array):
             if v is None:
                 logger.error(f"数据缺失: {k}")
@@ -213,13 +220,26 @@ class LoadDataDetail(CustomAction):
 
             if k == "jcsj":
                 try:
-                    v = datetime.strptime(v, "%Y/%m/%d").strftime("%Y-%m-%d")
-                except ValueError as e:
+                    # 尝试作为Excel日期序列号处理
+                    if isinstance(v, (int, float)):
+                        from datetime import timedelta
+
+                        # Excel日期起始点是1899年12月30日
+                        v = (datetime(1899, 12, 30) + timedelta(days=int(v))).strftime(
+                            "%Y-%m-%d"
+                        )
+                    # 尝试作为字符串日期处理
+                    elif isinstance(v, str):
+                        v = datetime.strptime(v, "%Y/%m/%d").strftime("%Y-%m-%d")
+                    else:
+                        raise ValueError(f"不支持的日期类型: {type(v)}")
+                except (ValueError, Exception) as e:
                     logger.error(f"日期格式错误: {v} - {e}")
                     return CustomAction.RunResult(success=False)
 
             row[k] = v
             logger.info(f"已读取 {k}: {v}")
+            config.set_value(k, v)
 
         config.set_value("current_data_row", row)
 
@@ -255,7 +275,10 @@ class ConfirmData(CustomAction):
         else:
             logger.info("用户选择继续")
 
-        return CustomAction.RunResult(success=True)
+        logger.info("正在缩放窗口")
+        is_success = resize_window_by_title("广西不动产登记信息管理云平台")
+
+        return CustomAction.RunResult(success=is_success)
 
 
 def calc_inputbox(input: Rect, position: Literal["right", "bottom"]) -> Rect:
@@ -294,10 +317,11 @@ class FillProgramName(CustomAction):
             return CustomAction.RunResult(success=False)
 
         config = get_config()
-        prefix = "".join([str(config.get_value(key, "")) for key in title_keys])
+        content = "".join([str(config.get_value(key, "")) for key in title_keys])
 
-        suffix = json.loads(argv.custom_action_param).get("suffix", "")
-        program_name = f"{prefix}{suffix}"
+        # suffix = json.loads(argv.custom_action_param).get("suffix", "")
+        # program_name = f"{prefix}{suffix}"
+        program_name = f"{content}"
         logger.info(f"正在获取项目信息：{str(config)}")
         logger.info(f"正在输入项目名称: {program_name}")
 

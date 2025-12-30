@@ -12,7 +12,7 @@
     },
     "宗地首次调查": {
         "recognition": "OCR",
-        "expected": "宗地首次调查",
+        "expected": "宗地首次调",
         "roi": [
             224,
             248,
@@ -47,6 +47,7 @@
             "宗地图形"
         ],
         "focus": "填写项目名称",
+        "rate_limit": 3000,
         "post_delay": 3000
     },
     "宗地图形": {
@@ -57,6 +58,12 @@
             181,
             812,
             544
+        ],
+        "replace": [
+            [
+                "国",
+                "图"
+            ]
         ],
         "action": "Click",
         "next": [
@@ -77,11 +84,14 @@
             544
         ],
         "action": "Click",
+        "pre_delay": 5000,
         "next": [
+            "编辑属性",
             "选择所有权类型"
         ],
         "focus": "点击编辑属性",
         "timeout": 40000,
+        "rate_limit": 5000,
         "post_delay": 3000
     },
     "选择所有权类型": {
