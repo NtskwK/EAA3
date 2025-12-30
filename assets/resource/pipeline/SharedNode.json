@@ -67,7 +67,7 @@
             544
         ],
         "action": "Click",
-        "timeout": 600000,
+        "timeout": 300000,
         "next": "等待上图完成",
         "focus": "点击上图"
     },

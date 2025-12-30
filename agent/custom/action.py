@@ -136,23 +136,6 @@ class SelectDatasetRow(CustomAction):
             "请选择主工作簿文件",
             filters=[("Excel文件", "*.xlsx;*.xls"), ("所有文件", "*.*")],
         )
-        data_dir = select_path("请选择数据文件夹", is_dir=True)
-        for path in [
-            main_workbook_path,
-            data_dir,
-        ]:
-            if (path is None) or (not path.exists()):
-                logger.error(f"路径无效: {path}")
-                return CustomAction.RunResult(success=False)
-        path_details = [
-            ("main_workbook_path", str(main_workbook_path)),
-            ("data_dir", str(data_dir)),
-            ("estatePlan_dir", str(data_dir)),
-            ("familyMember_dir", str(data_dir)),
-        ]
-        for key, path in path_details:
-            config.set_value(key, path)
-            logger.info(f"已设置 {key} 为 {path}")
 
         param = json.loads(argv.custom_action_param)
         keys = ["row_number", "table_name", "region"]
