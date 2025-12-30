@@ -444,6 +444,9 @@ class FillPzZdmj(CustomAction):
         is_success = click(
             context, *calc_inputbox(argv.reco_detail.best_result.box, position="right")
         )
+        if not is_success:
+            logger.error("点击输入框失败")
+            return CustomAction.RunResult(success=False)
 
         config = get_config()
         zdmj_max = config.get_value("zdmj_max", None)
