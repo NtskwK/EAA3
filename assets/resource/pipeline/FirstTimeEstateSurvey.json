@@ -22,6 +22,7 @@
             408
         ],
         "action": "Click",
+        "order_by": "Vertical",
         "repeat": 2,
         "repeat_delay": 1000,
         "next": "填写宗地首次调查项目名称",
@@ -32,10 +33,10 @@
         "recognition": "OCR",
         "expected": "项目名称",
         "roi": [
-            976,
-            219,
-            288,
-            346
+            923,
+            199,
+            264,
+            353
         ],
         "action": "Custom",
         "custom_action": "fill_program_name",
