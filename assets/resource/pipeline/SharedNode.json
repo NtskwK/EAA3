@@ -19,13 +19,17 @@
         "expected": "受理",
         "action": "Click",
         "roi": [
-            748,
-            142,
-            270,
-            571
+            976,
+            212,
+            289,
+            418
         ],
+        "index": -1,
         "max_hit": 1,
-        "focus": "点击受理"
+        "focus": "点击受理",
+        "next": "受理",
+        "post_delay": 3000,
+        "timeout": 1000
     },
     "上传宗地图流程": {
         "recognition": "OCR",
@@ -82,8 +86,9 @@
     },
     "向下滑动": {
         "action": "Scroll",
-        "dy": -480,
-        "focus": "向下滑动"
+        "dy": -120,
+        "focus": "向下滑动",
+        "max_hit": 1
     },
     "debug": {
         "next": "fill_debug",

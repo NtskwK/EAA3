@@ -281,12 +281,14 @@ class ConfirmData(CustomAction):
         return CustomAction.RunResult(success=is_success)
 
 
-def calc_inputbox(input: Rect, position: Literal["right", "bottom"]) -> Rect:
+def calc_inputbox(input: Rect, position: Literal["right", "bottom"], ratio=3) -> Rect:
     if position == "right":
-        box = Rect(x=(input[0] + int(3 * input[2])), y=input[1], w=input[2], h=input[3])
+        box = Rect(
+            x=(input[0] + int(ratio * input[2])), y=input[1], w=input[2], h=input[3]
+        )
     elif position == "bottom":
         box = Rect(
-            x=input[0], y=(input[1] + int(1.5 * input[3])), w=input[2], h=input[3]
+            x=input[0], y=(input[1] + int(ratio * input[3])), w=input[2], h=input[3]
         )
     else:
         raise ValueError(f"Unknown position: {position}")
@@ -303,8 +305,10 @@ class FillProgramName(CustomAction):
         if not argv.reco_detail or not argv.reco_detail.best_result:
             logger.error("未提供识别结果，无法定位输入框")
             return CustomAction.RunResult(success=False)
-
-        box = calc_inputbox(argv.reco_detail.best_result.box, position="right")
+        ratio = json.loads(argv.custom_action_param).get("ratio", 3)
+        box = calc_inputbox(
+            argv.reco_detail.best_result.box, position="right", ratio=ratio
+        )
         is_success = (
             context.tasker.controller.post_click(
                 box[0] + box[2] // 2, box[1] + box[3] // 2

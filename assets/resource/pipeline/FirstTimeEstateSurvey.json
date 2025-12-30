@@ -24,24 +24,22 @@
         "repeat_delay": 1000,
         "next": "填写宗地首次调查项目名称",
         "focus": "点击宗地首次调查",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写宗地首次调查项目名称": {
         "recognition": "OCR",
         "expected": "项目名称",
         "roi": [
-            210,
-            181,
-            812,
-            544
+            976,
+            219,
+            288,
+            346
         ],
         "action": "Custom",
         "custom_action": "fill_program_name",
         "custom_action_param": {
             "suffix": "宗地首次调查项目"
         },
-        "timeout": 40000,
         "next": [
             "[JumpBack]受理",
             "宗地图形"
@@ -70,7 +68,6 @@
             "[JumpBack]上传宗地图流程",
             "编辑属性"
         ],
-        "timeout": 40000,
         "focus": "点击宗地图形",
         "post_delay": 3000
     },
@@ -90,24 +87,25 @@
             "选择所有权类型"
         ],
         "focus": "点击编辑属性",
-        "timeout": 40000,
         "rate_limit": 5000,
         "post_delay": 3000
     },
     "选择所有权类型": {
         "recognition": "OCR",
-        "expected": "所有权类型",
+        "expected": "请选择",
         "roi": [
             210,
             181,
             812,
             544
         ],
-        "action": "Custom",
-        "custom_action": "click_right",
+        "order_by": "Vertical",
+        "action": "Click",
+        "custom_action_param": {
+            "ratio": 2
+        },
         "next": "集体土地所有权",
         "focus": "选择所有权类型",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "集体土地所有权": {
@@ -122,23 +120,21 @@
         "action": "Click",
         "next": "选择宗地特征码",
         "focus": "点击集体土地所有权",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "选择宗地特征码": {
         "recognition": "OCR",
-        "expected": "宗地特征码",
+        "expected": "请选择",
         "roi": [
             210,
             181,
             812,
             544
         ],
-        "action": "Custom",
-        "custom_action": "click_right",
+        "order_by": "Vertical",
+        "action": "Click",
         "next": "宅基地使用权宗地",
         "focus": "选择宗地特征码",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "宅基地使用权宗地": {
@@ -153,7 +149,6 @@
         "action": "Click",
         "next": "填写宗地代码",
         "focus": "点击宅基地使用权宗地",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写宗地代码": {
@@ -168,11 +163,10 @@
         "action": "Custom",
         "custom_action": "fill_right_from_config",
         "custom_action_param": {
-            "key": "estate_code"
+            "key": "estateCode"
         },
         "next": "填写坐落",
         "focus": "填写宗地代码",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写坐落": {
@@ -191,7 +185,6 @@
         },
         "next": "基本信息点击生成",
         "focus": "填写坐落",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "基本信息点击生成": {
@@ -204,23 +197,30 @@
             544
         ],
         "action": "Click",
-        "focus": "点击生成"
+        "focus": "点击生成",
+        "next": "选择权利类型"
     },
     "选择权利类型": {
         "recognition": "OCR",
-        "expected": "权利类型",
+        "expected": "请选择",
         "roi": [
             210,
             181,
             812,
             544
         ],
-        "action": "Custom",
-        "custom_action": "click_right",
-        "next": "点击宅基地使用权",
+        "order_by": "Vertical",
+        "action": "Click",
+        "next": "输入5",
         "post_delay": 3000,
         "focus": "选择权利类型",
         "timeout": 40000
+    },
+    "输入5": {
+        "action": "InputText",
+        "input_text": "5",
+        "next": "点击宅基地使用权",
+        "post_delay": 5000
     },
     "点击宅基地使用权": {
         "recognition": "OCR",
@@ -234,43 +234,29 @@
         "action": "Click",
         "next": "选择权利性质",
         "focus": "点击宅基地使用权",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "选择权利性质": {
         "recognition": "OCR",
-        "expected": "权利性质",
+        "expected": "请选择",
         "roi": [
             210,
             181,
             812,
             544
         ],
-        "action": "Custom",
-        "custom_action": "click_right",
-        "next": "找到出让",
+        "order_by": "Vertical",
+        "action": "Click",
+        "next": "输入批准拨",
         "focus": "选择权利性质",
-        "timeout": 40000,
         "post_delay": 3000
     },
-    "找到出让": {
-        "recognition": "OCR",
-        "expected": "出让",
-        "roi": [
-            210,
-            181,
-            812,
-            544
-        ],
-        "action": "Swipe",
-        "only_hover": true,
-        "next": [
-            "[JumpBack]向下滑动",
-            "点击批准拨用"
-        ],
-        "focus": "找到出让",
-        "timeout": 40000,
-        "post_delay": 3000
+    "输入批准拨": {
+        "action": "InputText",
+        "input_text": "批准拨",
+        "focus": "输入批准拨",
+        "post_delay": 3000,
+        "next": "点击批准拨用"
     },
     "点击批准拨用": {
         "recognition": "OCR",
@@ -284,24 +270,27 @@
         "action": "Click",
         "next": "选择权利设定方式",
         "focus": "点击批准拨用",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "选择权利设定方式": {
         "recognition": "OCR",
-        "expected": "权利设定方式",
+        "expected": "请选择",
         "roi": [
             210,
             181,
             812,
             544
         ],
-        "action": "Custom",
-        "custom_action": "click_right",
-        "next": "点击地表",
+        "order_by": "Vertical",
+        "action": "Click",
+        "next": "输入表",
         "focus": "选择权利设定方式",
-        "timeout": 40000,
         "post_delay": 3000
+    },
+    "输入表": {
+        "action": "InputText",
+        "input_text": "表",
+        "next": "点击地表"
     },
     "点击地表": {
         "recognition": "OCR",
@@ -317,29 +306,33 @@
             "选择是否为集体经营性用地"
         ],
         "focus": "点击地表",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "选择是否为集体经营性用地": {
         "recognition": "OCR",
-        "expected": "是否为集体经营性用地",
+        "expected": "请选择",
         "roi": [
             210,
             181,
             812,
             544
         ],
-        "action": "Custom",
-        "custom_action": "click_right",
-        "next": "选择是否为集体经营性用地_否",
+        "index": 1,
+        "order_by": "Vertical",
+        "action": "Click",
+        "next": "输入否",
         "focus": "选择是否为集体经营性用地",
-        "timeout": 40000,
         "post_delay": 3000
     },
-    "选择是否为集体经营性用地_否": {
+    "输入否": {
+        "action": "InputText",
+        "input_text": "否",
+        "next": "点击否"
+    },
+    "点击否": {
         "recognition": "OCR",
         "expected": "否",
-        "index": 1,
+        "index": -1,
         "roi": [
             210,
             181,
@@ -347,9 +340,11 @@
             544
         ],
         "action": "Click",
-        "next": "填写宗地东至",
         "focus": "选择否",
-        "timeout": 40000,
+        "next": [
+            "填写宗地东至",
+            "[JumpBack]向下滑动"
+        ],
         "post_delay": 3000
     },
     "填写宗地东至": {
@@ -368,7 +363,6 @@
         },
         "next": "填写宗地南至",
         "focus": "填写宗地东至",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写宗地南至": {
@@ -387,7 +381,6 @@
         },
         "next": "填写宗地西至",
         "focus": "填写宗地南至",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写宗地西至": {
@@ -406,7 +399,6 @@
         },
         "next": "填写宗地北至",
         "focus": "填写宗地西至",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写宗地北至": {
@@ -423,7 +415,11 @@
         "custom_action_param": {
             "key": "north"
         },
-        "focus": "填写宗地北至"
+        "focus": "填写宗地北至",
+        "next": [
+            "填写批准面积",
+            "[JumpBack]向下滑动"
+        ]
     },
     "填写批准面积": {
         "recognition": "OCR",
@@ -440,7 +436,6 @@
             "填写宗地面积"
         ],
         "focus": "填写批准面积",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写宗地面积": {
@@ -458,10 +453,10 @@
             "key": "zdmj"
         },
         "next": [
-            "填写建筑占地面积"
+            "填写建筑占地面积",
+            "[JumpBack]向下滑动"
         ],
         "focus": "填写宗地面积",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写建筑占地面积": {
@@ -483,7 +478,6 @@
             "填写建筑面积"
         ],
         "focus": "填写建筑占地面积",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写建筑面积": {
@@ -498,14 +492,13 @@
         "action": "Custom",
         "custom_action": "fill_right_from_config",
         "custom_action_param": {
-            "$doc": "建筑面积是要把每层都加起来的",
             "key": "jzmj"
         },
         "next": [
-            "选择是否具备发证条件"
+            "选择是否具备发证条件",
+            "[JumpBack]向下滑动"
         ],
         "focus": "填写建筑面积",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "选择是否具备发证条件": {
@@ -521,7 +514,6 @@
         "custom_action": "click_right",
         "next": "点击是",
         "focus": "选择是否具备发证条件",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "点击是": {
@@ -538,7 +530,6 @@
             "点击新增"
         ],
         "focus": "点击是",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "点击新增": {
@@ -555,7 +546,6 @@
             "在土地用途点击请选择"
         ],
         "focus": "点击新增",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "在土地用途点击请选择": {
@@ -571,7 +561,6 @@
             "输入0703"
         ],
         "focus": "点击请选择",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "输入0703": {
@@ -581,7 +570,6 @@
             "点击农村宅基地"
         ],
         "focus": "输入0703",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "点击农村宅基地": {
@@ -598,7 +586,6 @@
             "保存土地用途"
         ],
         "focus": "点击农村宅基地",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "保存土地用途": {
@@ -616,7 +603,6 @@
             "保存基本信息"
         ],
         "focus": "保存土地用途",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "保存基本信息": {
@@ -634,7 +620,6 @@
             "点击宗地图附件"
         ],
         "focus": "保存基本信息",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "点击宗地图附件": {
@@ -651,7 +636,6 @@
             "点击上传"
         ],
         "focus": "点击宗地图附件",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "点击上传": {
@@ -668,7 +652,6 @@
             "等待预览"
         ],
         "focus": "点击上传",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "等待预览": {
@@ -683,7 +666,6 @@
         "action": "DoNothing",
         "next": "点击权利人信息",
         "focus": "等待预览",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "点击权利人信息": {
@@ -700,7 +682,6 @@
             "填写权利人信息"
         ],
         "focus": "点击权利人信息",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写权利人信息": {
@@ -721,7 +702,6 @@
             "选择权利人类型"
         ],
         "focus": "填写权利人信息",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "选择权利人类型": {
@@ -741,7 +721,6 @@
         },
         "next": "选择证件种类",
         "focus": "选择权利人类型",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "选择证件种类": {
@@ -761,7 +740,6 @@
         },
         "next": "选择共有方式",
         "focus": "选择证件种类",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "选择共有方式": {
@@ -781,7 +759,6 @@
         },
         "next": "填写证件号码",
         "focus": "选择共有方式",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写证件号码": {
@@ -802,7 +779,6 @@
             "选择是否微小企业"
         ],
         "focus": "填写证件号码",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "选择是否微小企业": {
@@ -822,7 +798,6 @@
         },
         "next": "填写地址",
         "focus": "选择是否微小企业",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "填写地址": {
@@ -841,7 +816,6 @@
         },
         "next": "保存权利人信息",
         "focus": "填写地址",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "保存权利人信息": {
@@ -858,7 +832,6 @@
             "点击基本信息2"
         ],
         "focus": "保存权利人信息",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "点击基本信息2": {
@@ -875,7 +848,6 @@
             "关闭基本信息"
         ],
         "focus": "点击基本信息",
-        "timeout": 40000,
         "post_delay": 3000
     },
     "关闭基本信息": {
