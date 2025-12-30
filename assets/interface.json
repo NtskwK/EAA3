@@ -19,8 +19,8 @@
                 "screencap": "FramePool", // 截图方式
                 // "screencap": "DXGI_DesktopDup_Window", // 截图方式
                 // "screencap": "FramePool", // 截图方式
-                "mouse": "SendMessage", // 鼠标控制方式
-                "keyboard": "SendMessage" // 键盘控制方式
+                "mouse": "Seize", // 鼠标控制方式
+                "keyboard": "Seize" // 键盘控制方式
             }
         }
     ],
